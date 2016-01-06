@@ -1,0 +1,55 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_navigation_drawer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
+    tools:context="layout.NavigationDrawerFragment">
+
+    <RelativeLayout
+        android:id="@+id/containerImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:background="@color/colorPrimary">
+
+        <ImageView
+            android:layout_width="56dp"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:src="@drawable/ic_face_black_48dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:orientation="vertical"
+            android:layout_marginStart="@dimen/nav_drawer_text_margin"
+            android:layout_marginLeft="@dimen/nav_drawer_text_margin">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="28dp"
+                android:text="@string/user_name"
+                android:textSize="16sp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="28dp"
+                android:text="@string/user_email"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/drawerList"
+        android:layout_width="match_parent"
+        android:layout_height ="wrap_content"
+        android:layout_below="@+id/containerImage"
+        android:paddingTop="8dp">
+
+    </android.support.v7.widget.RecyclerView>
+
+</RelativeLayout>
