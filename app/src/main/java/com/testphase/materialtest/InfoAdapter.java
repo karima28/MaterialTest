@@ -1,6 +1,7 @@
 package com.testphase.materialtest;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,7 +42,6 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.MyViewholder> 
         Information current = data.get(position);
         holder.title.setText(current.title);
         holder.icon.setImageResource(current.iconID);
-
     }
 
     @Override
@@ -51,8 +51,7 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.MyViewholder> 
 
 
     //Viewholder once created to set what one row looks like and each time filled with data
-    class MyViewholder extends RecyclerView.ViewHolder //implements View.OnClickListener
-    {
+    class MyViewholder extends RecyclerView.ViewHolder {
 
         TextView title;
         ImageView icon;
@@ -61,13 +60,9 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.MyViewholder> 
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.listText);
             icon = (ImageView) itemView.findViewById(R.id.listIcon);
-            //icon.setOnClickListener(this);
+
         }
 
-        /*@Override
-        public void onClick(View v) {
 
-            Toast.makeText(context, "Item clicked at " +getPosition(), Toast.LENGTH_SHORT).show();
-        }*/
     }
 }
