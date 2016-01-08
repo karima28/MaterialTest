@@ -1,4 +1,4 @@
-package layout;
+package com.testphase.materialtest.layout;
 
 
 import android.content.Context;
@@ -70,7 +70,7 @@ public class NavigationDrawerFragment extends Fragment {
             @Override
             public void onClick(View view, int position) {
 
-                Toast.makeText(getActivity(), "onClick at " +position, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "onClick at " + position, Toast.LENGTH_SHORT).show();
             }
 
             @Override

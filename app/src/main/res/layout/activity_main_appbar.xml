@@ -30,7 +30,7 @@
             android:layout_width="280dp"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            android:name="layout.NavigationDrawerFragment"
+            android:name="com.testphase.materialtest.layout.NavigationDrawerFragment"
             tools:layout="@layout/fragment_navigation_drawer" />
 
     </android.support.v4.widget.DrawerLayout>

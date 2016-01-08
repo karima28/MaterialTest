@@ -10,7 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import layout.NavigationDrawerFragment;
+import com.testphase.materialtest.layout.NavigationDrawerFragment;
 
 public class MainActivity extends AppCompatActivity {
 
