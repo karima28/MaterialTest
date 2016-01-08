@@ -17,7 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.testphase.materialtest.InfoAdapter;
+import com.testphase.materialtest.adapter.InfoAdapter;
 import com.testphase.materialtest.Information;
 import com.testphase.materialtest.R;
 
@@ -97,6 +97,8 @@ public class NavigationDrawerFragment extends Fragment {
         }
         return data;
     }
+
+
     public void setUp(int fragmentId, DrawerLayout drawerLayout, final Toolbar toolbar){
 
         containerView = getActivity().findViewById(fragmentId);

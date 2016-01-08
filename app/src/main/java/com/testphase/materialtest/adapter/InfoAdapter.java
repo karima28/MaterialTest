@@ -1,18 +1,18 @@
-package com.testphase.materialtest;
+package com.testphase.materialtest.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.testphase.materialtest.Information;
+import com.testphase.materialtest.R;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.zip.Inflater;
 
 /**
  * Created by deea on 06/01/16.

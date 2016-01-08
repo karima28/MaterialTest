@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,11 +24,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.testphase.materialtest.adapter.AdapterListThings;
 import com.testphase.materialtest.extra.UrlEndpoints;
 import com.testphase.materialtest.logging.L;
 import com.testphase.materialtest.network.VolleySingleton;
 import com.testphase.materialtest.pojo.Thing;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 
 import static com.testphase.materialtest.extra.UrlEndpoints.*;
@@ -40,20 +43,18 @@ import static com.testphase.materialtest.extra.Keys.Endpoints.*;
  */
 public class SearchFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
     private VolleySingleton volleySingleton;
     private ImageLoader imageLoader;
     private RequestQueue requestQueue;
+
     private ArrayList<Thing> listThings = new ArrayList<>();
     private RecyclerView listFirstThings;
+    private AdapterListThings adapterListThings;
 
 
     public SearchFragment() {
@@ -92,7 +93,7 @@ public class SearchFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        volleySingleton = VolleySingleton.getsInstance();
+        volleySingleton = VolleySingleton.getInstance();
         requestQueue = volleySingleton.getRequestQueue();
         sendJsonRequest();
 
@@ -108,7 +109,8 @@ public class SearchFragment extends Fragment {
                 @Override
                 public void onResponse(JSONObject response) {
 
-                    Toast.makeText(getActivity(),response.toString() +"", Toast.LENGTH_SHORT).show();
+                    listThings = parseJSONResponse(response);
+                    adapterListThings.setListThings(listThings);
                 }
 
             },
@@ -126,40 +128,39 @@ public class SearchFragment extends Fragment {
 
     }
 
-    private void parseJSONResponse(JSONObject response){
-        if(response == null || response.length() == 0){
-            return;
-        }
+    private ArrayList<Thing> parseJSONResponse(JSONObject response){
+        ArrayList<Thing> listThings = new ArrayList<>();
 
-        try{
-            JSONArray arrayThings = response.getJSONArray(KEY_THING);
+        if(response != null || response.length() > 0){
+            try{
+                JSONArray arrayThings = response.getJSONArray(KEY_THING);
 
-            for (int i = 0; i < arrayThings.length(); i++){
-                JSONObject currentThing = arrayThings.getJSONObject(i);
-                String productThing = currentThing.getString(KEY_PRODUCT);
-                JSONObject propertyThing = currentThing.getJSONObject(KEY_PROPERTIES);
-                long id = propertyThing.getLong(KEY_ID);
-                JSONObject descriptionThing = propertyThing.getJSONObject(KEY_DESCRIPTION);
-                String colour = descriptionThing.getString(KEY_COLOUR);
-                String type = descriptionThing.getString(KEY_TYPE);
+                for (int i = 0; i < arrayThings.length(); i++){
 
-                Thing thing = new Thing();
-                thing.setId(id);
-                thing.setColour(colour);
-                thing.setType(type);
+                    JSONObject currentThing = arrayThings.getJSONObject(i);
+                    String productThing = currentThing.getString(KEY_PRODUCT);
+                    JSONObject propertyThing = currentThing.getJSONObject(KEY_PROPERTIES);
+                    long id = propertyThing.getLong(KEY_ID);
+                    JSONObject descriptionThing = propertyThing.getJSONObject(KEY_DESCRIPTION);
+                    String colour = descriptionThing.getString(KEY_COLOUR);
+                    String type = descriptionThing.getString(KEY_TYPE);
 
-                listThings.add(thing);
+                    Thing thing = new Thing();
+                    thing.setId(id);
+                    thing.setColour(colour);
+                    thing.setType(type);
+                    //Log.d("YO", id + "\n" + colour + "\n" + type);
+
+                    listThings.add(thing);
+                }
+
+
+            } catch (JSONException e) {
+
             }
-
-            L.T(getActivity(), listThings.toString());
-
-
-
-
-        } catch (JSONException e){
-
-
         }
+
+        return listThings;
 
     }
 
@@ -170,9 +171,15 @@ public class SearchFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view  = inflater.inflate(R.layout.fragment_search, container, false);
-        listFirstThings = (RecyclerView) view.findViewById(R.id.listFirstThings);
+
+        listFirstThings = (RecyclerView) view.findViewById(R.id.listFThings);
+        adapterListThings = new AdapterListThings(getActivity());
+        listFirstThings.setAdapter(adapterListThings);
+
         listFirstThings.setLayoutManager(new LinearLayoutManager(getActivity()));
-        // Inflate the layout for this fragment
+
+        sendJsonRequest();
+
         return view;
 
     }

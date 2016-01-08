@@ -23,6 +23,15 @@
                 android:id="@+id/app_bar"
                 layout="@layout/app_bar" />
 
+            <fragment
+                android:id="@+id/fragment_search"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="start"
+                android:layout_marginTop="56dp"
+                android:name="com.testphase.materialtest.layout.SearchFragment"
+                tools:layout="@layout/fragment_search" />
+
         </RelativeLayout>
 
         <fragment
@@ -32,6 +41,8 @@
             android:layout_gravity="start"
             android:name="com.testphase.materialtest.layout.NavigationDrawerFragment"
             tools:layout="@layout/fragment_navigation_drawer" />
+
+
 
     </android.support.v4.widget.DrawerLayout>
 
