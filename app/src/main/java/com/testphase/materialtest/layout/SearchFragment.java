@@ -138,17 +138,21 @@ public class SearchFragment extends Fragment {
                 for (int i = 0; i < arrayThings.length(); i++){
 
                     JSONObject currentThing = arrayThings.getJSONObject(i);
-                    String productThing = currentThing.getString(KEY_PRODUCT);
+                    String product = currentThing.getString(KEY_PRODUCT);
                     JSONObject propertyThing = currentThing.getJSONObject(KEY_PROPERTIES);
                     long id = propertyThing.getLong(KEY_ID);
-                    JSONObject descriptionThing = propertyThing.getJSONObject(KEY_DESCRIPTION);
-                    String colour = descriptionThing.getString(KEY_COLOUR);
-                    String type = descriptionThing.getString(KEY_TYPE);
+                    String description = propertyThing.getString(KEY_DESCRIPTION);
+                    JSONObject detailsThing = propertyThing.getJSONObject(KEY_DETAILS);
+                    String colour = detailsThing.getString(KEY_COLOUR);
+                    String type = detailsThing.getString(KEY_TYPE);
 
                     Thing thing = new Thing();
+                    thing.setProduct(product);
                     thing.setId(id);
+                    thing.setDescription(description);
                     thing.setColour(colour);
                     thing.setType(type);
+
                     //Log.d("YO", id + "\n" + colour + "\n" + type);
 
                     listThings.add(thing);
