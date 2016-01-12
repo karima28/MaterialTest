@@ -109,10 +109,8 @@ public class SearchFragment extends Fragment {
                 @Override
                 public void onResponse(JSONObject response) {
 
-                    Log.d("YO", "YOLO1");
                     listThings = parseJSONResponse(response);
                     adapterListThings.setListThings(listThings);
-                    Log.d("YO", response.toString());
                 }
 
             },
@@ -121,7 +119,7 @@ public class SearchFragment extends Fragment {
 
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                Log.d("YO", error.toString());
+                L.m(error.toString());
                 }
             }
     );
@@ -134,26 +132,27 @@ public class SearchFragment extends Fragment {
         ArrayList<Thing> listThings = new ArrayList<>();
 
         if(response != null || response.length() > 0){
+
             try{
                 JSONArray arrayThings = response.getJSONArray(KEY_PRODUCT);
 
                 for (int i = 0; i < arrayThings.length(); i++){
 
                     JSONObject currentThing = arrayThings.getJSONObject(i);
-                    String product = currentThing.getString(KEY_NAME);
+                    String name = currentThing.getString(KEY_NAME);
                     long id = currentThing.getLong(KEY_ID);
                     String description = currentThing.getString(KEY_DESCRIPTION);
                     String colour = currentThing.getString(KEY_COLOUR);
+                    //long price = currentThing.getLong(KEY_PRICE); //Check what type Price should be
                     String category = currentThing.getString(KEY_CATEGORY);
 
                     Thing thing = new Thing();
-                    thing.setName(product);
+                    thing.setName(name);
                     thing.setId(id);
                     thing.setDescription(description);
                     thing.setColour(colour);
+                    //thing.setPrice(price);
                     thing.setCategory(category);
-
-                    //Log.d("YO", id + "\n" + colour + "\n" + type);
 
                     listThings.add(thing);
                 }
