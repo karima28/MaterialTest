@@ -109,8 +109,10 @@ public class SearchFragment extends Fragment {
                 @Override
                 public void onResponse(JSONObject response) {
 
+                    Log.d("YO", "YOLO1");
                     listThings = parseJSONResponse(response);
                     adapterListThings.setListThings(listThings);
+                    Log.d("YO", response.toString());
                 }
 
             },
@@ -119,7 +121,7 @@ public class SearchFragment extends Fragment {
 
                 @Override
                 public void onErrorResponse(VolleyError error) {
-
+                Log.d("YO", error.toString());
                 }
             }
     );
@@ -133,25 +135,23 @@ public class SearchFragment extends Fragment {
 
         if(response != null || response.length() > 0){
             try{
-                JSONArray arrayThings = response.getJSONArray(KEY_THING);
+                JSONArray arrayThings = response.getJSONArray(KEY_PRODUCT);
 
                 for (int i = 0; i < arrayThings.length(); i++){
 
                     JSONObject currentThing = arrayThings.getJSONObject(i);
-                    String product = currentThing.getString(KEY_PRODUCT);
-                    JSONObject propertyThing = currentThing.getJSONObject(KEY_PROPERTIES);
-                    long id = propertyThing.getLong(KEY_ID);
-                    String description = propertyThing.getString(KEY_DESCRIPTION);
-                    JSONObject detailsThing = propertyThing.getJSONObject(KEY_DETAILS);
-                    String colour = detailsThing.getString(KEY_COLOUR);
-                    String type = detailsThing.getString(KEY_TYPE);
+                    String product = currentThing.getString(KEY_NAME);
+                    long id = currentThing.getLong(KEY_ID);
+                    String description = currentThing.getString(KEY_DESCRIPTION);
+                    String colour = currentThing.getString(KEY_COLOUR);
+                    String category = currentThing.getString(KEY_CATEGORY);
 
                     Thing thing = new Thing();
-                    thing.setProduct(product);
+                    thing.setName(product);
                     thing.setId(id);
                     thing.setDescription(description);
                     thing.setColour(colour);
-                    thing.setType(type);
+                    thing.setCategory(category);
 
                     //Log.d("YO", id + "\n" + colour + "\n" + type);
 

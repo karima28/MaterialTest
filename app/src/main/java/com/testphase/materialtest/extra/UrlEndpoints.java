@@ -5,7 +5,7 @@ package com.testphase.materialtest.extra;
  */
 public class UrlEndpoints {
 
-    public static final String URL_PRODUCT = "http://192.168.2.108:8000/data.json";
+    public static final String URL_PRODUCT = "http://incnet.de/products/";
     public static final String URL_CHAR_QUES = "?";
     public static final String URL_CHAR_AMP = "&";
     public static final String URL_PAR_LIMIT = "limit=";
