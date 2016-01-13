@@ -35,6 +35,33 @@
             android:text="@string/description"
             android:textSize="16sp" />
 
+        <TextView
+            android:id="@+id/TextViewColour"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/EditTextColour"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:text="@string/colour"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/TextViewPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/EditTextPrice"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:text="@string/price"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/TextViewCategory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/EditTextCategory"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:text="@string/category"
+            android:textSize="16sp" />
+
         <EditText
             android:id="@+id/EditTextName"
             android:layout_width="wrap_content"
@@ -44,7 +71,7 @@
             android:ems="10"
             android:layout_toLeftOf="@+id/TextViewName"
             android:layout_alignParentRight="true"
-            android:inputType="textCapCharacters"/>
+            android:inputType="text"/>
 
         <EditText
             android:id="@+id/EditTextDescription"
@@ -56,7 +83,43 @@
             android:layout_toLeftOf="@+id/TextViewDescription"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/EditTextName"
-            android:inputType="text|textMultiLine"/>
+            android:inputType="textMultiLine"/>
+
+        <EditText
+            android:id="@+id/EditTextColour"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingEnd="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:ems="10"
+            android:layout_toLeftOf="@+id/TextViewColour"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/EditTextDescription"
+            android:inputType="text"/>
+
+        <EditText
+            android:id="@+id/EditTextPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingEnd="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:ems="10"
+            android:layout_toLeftOf="@+id/TextViewPrice"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/EditTextColour"
+            android:inputType="text"/>
+
+        <EditText
+            android:id="@+id/EditTextCategory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingEnd="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:ems="10"
+            android:layout_toLeftOf="@+id/TextViewCategory"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/EditTextPrice"
+            android:inputType="text"/>
 
         <Button
             android:id="@+id/saveButton"

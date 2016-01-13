@@ -14,11 +14,26 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.testphase.materialtest.adapter.AdapterListThings;
+import com.testphase.materialtest.extra.UrlEndpoints;
+import com.testphase.materialtest.json.JsonUtil;
 import com.testphase.materialtest.layout.NavigationDrawerFragment;
 import com.testphase.materialtest.layout.SearchFragment;
+import com.testphase.materialtest.logging.L;
+import com.testphase.materialtest.network.PostRequest;
+import com.testphase.materialtest.network.VolleySingleton;
+import com.testphase.materialtest.pojo.Thing;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import static com.testphase.materialtest.layout.SearchFragment.*;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     private RecyclerView.Adapter mAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,25 +71,28 @@ public class MainActivity extends AppCompatActivity {
 
 
         SearchFragment searchFragment = (SearchFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_search);
-        searchFragment.newInstance("","");
+        searchFragment.newInstance("", "");
+
 
     }
 
+
+
     @Override
-    public boolean onCreateOptionsMenu(Menu menu){
+    public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
+    public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if(id == R.id.action_settings){
-            Toast.makeText(this, "You have clicked " +item.getTitle(), Toast.LENGTH_SHORT).show();
+        if (id == R.id.action_settings) {
+            Toast.makeText(this, "You have clicked " + item.getTitle(), Toast.LENGTH_SHORT).show();
             return true;
         }
-        if(id == R.id.add){
+        if (id == R.id.add) {
             startActivity(new Intent(this, SubActivity.class));
         }
         return super.onOptionsItemSelected(item);

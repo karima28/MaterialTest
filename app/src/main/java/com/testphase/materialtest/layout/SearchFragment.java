@@ -143,7 +143,7 @@ public class SearchFragment extends Fragment {
                     long id = currentThing.getLong(KEY_ID);
                     String description = currentThing.getString(KEY_DESCRIPTION);
                     String colour = currentThing.getString(KEY_COLOUR);
-                    //long price = currentThing.getLong(KEY_PRICE); //Check what type Price should be
+                    double price = currentThing.getLong(KEY_PRICE);
                     String category = currentThing.getString(KEY_CATEGORY);
 
                     Thing thing = new Thing();
@@ -151,7 +151,7 @@ public class SearchFragment extends Fragment {
                     thing.setId(id);
                     thing.setDescription(description);
                     thing.setColour(colour);
-                    //thing.setPrice(price);
+                    thing.setPrice(price);
                     thing.setCategory(category);
 
                     listThings.add(thing);

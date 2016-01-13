@@ -12,6 +12,9 @@
 
     <string name="name">Name</string>
     <string name="description">Description</string>
+    <string name="colour">Colour</string>
+    <string name="price">Price</string>
+    <string name="category">Category</string>
     <string name="save">Save</string>
 
     <!-- TODO: Remove or change this placeholder text -->

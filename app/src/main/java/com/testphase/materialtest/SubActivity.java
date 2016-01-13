@@ -13,10 +13,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.testphase.materialtest.network.PostRequest;
+
 public class SubActivity extends AppCompatActivity implements View.OnClickListener{
 
     EditText EditTextName;
     EditText EditTextDescription;
+    EditText EditTextColour;
+    EditText EditTextPrice;
+    EditText EditTextCategory;
 
     Button saveButton;
 
@@ -27,17 +32,13 @@ public class SubActivity extends AppCompatActivity implements View.OnClickListen
 
         EditTextName = (EditText) findViewById(R.id.EditTextName);
         EditTextDescription = (EditText) findViewById(R.id.EditTextDescription);
+        EditTextColour = (EditText) findViewById(R.id.EditTextColour);
+        EditTextPrice = (EditText) findViewById(R.id.EditTextPrice);
+        EditTextCategory = (EditText) findViewById(R.id.EditTextCategory);
 
         saveButton = (Button) findViewById(R.id.saveButton);
         saveButton.setOnClickListener(this);
 
-        /*nameEditText.setText(itemName);
-        nameEditText.setFocusable(false);
-        nameEditText.setClickable(false);
-
-        descriptionEditText.setText((CharSequence) itemDescription);
-        descriptionEditText.setFocusable(false);
-        descriptionEditText.setClickable(false);*/
 
         /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -77,6 +78,11 @@ public class SubActivity extends AppCompatActivity implements View.OnClickListen
     }
 
     public void persistItem() {
+
+        PostRequest postRequest = new PostRequest();
+
+        postRequest.newInstance(EditTextName.getText().toString(), EditTextDescription.getText().toString(), EditTextColour.getText().toString(),
+                Double.parseDouble(EditTextPrice.getText().toString()), EditTextCategory.getText().toString());
 
         Toast.makeText(getApplicationContext(), "Item added successfully", Toast.LENGTH_SHORT).show();
 
