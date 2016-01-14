@@ -95,7 +95,7 @@ public class SearchFragment extends Fragment {
 
         volleySingleton = VolleySingleton.getInstance();
         requestQueue = volleySingleton.getRequestQueue();
-        sendJsonRequest();
+        //sendJsonRequest();
 
     }
 
@@ -109,6 +109,7 @@ public class SearchFragment extends Fragment {
                 @Override
                 public void onResponse(JSONObject response) {
 
+                    L.m(response.toString());
                     listThings = parseJSONResponse(response);
                     adapterListThings.setListThings(listThings);
                 }
@@ -138,23 +139,27 @@ public class SearchFragment extends Fragment {
 
                 for (int i = 0; i < arrayThings.length(); i++){
 
+                    L.m(Integer.toString(arrayThings.length()));
+
                     JSONObject currentThing = arrayThings.getJSONObject(i);
                     String name = currentThing.getString(KEY_NAME);
-                    long id = currentThing.getLong(KEY_ID);
+                    //long id = currentThing.getLong(KEY_ID);
                     String description = currentThing.getString(KEY_DESCRIPTION);
-                    String colour = currentThing.getString(KEY_COLOUR);
-                    double price = currentThing.getLong(KEY_PRICE);
-                    String category = currentThing.getString(KEY_CATEGORY);
+                    //String colour = currentThing.getString(KEY_COLOUR);
+                    //double price = currentThing.getLong(KEY_PRICE);
+                    //String category = currentThing.getString(KEY_CATEGORY);
 
                     Thing thing = new Thing();
                     thing.setName(name);
-                    thing.setId(id);
+                    //thing.setId(id);
                     thing.setDescription(description);
-                    thing.setColour(colour);
-                    thing.setPrice(price);
-                    thing.setCategory(category);
+                    //thing.setColour(colour);
+                    //thing.setPrice(price);
+                    //thing.setCategory(category);
 
                     listThings.add(thing);
+
+                    L.m(name+description);
                 }
 
 

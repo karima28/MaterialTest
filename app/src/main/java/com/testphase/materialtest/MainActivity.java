@@ -73,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
         SearchFragment searchFragment = (SearchFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_search);
         searchFragment.newInstance("", "");
 
-
     }
 
 
