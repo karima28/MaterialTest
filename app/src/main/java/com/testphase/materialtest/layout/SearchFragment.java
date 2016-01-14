@@ -2,6 +2,7 @@ package com.testphase.materialtest.layout;
 
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +18,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.melnykov.fab.FloatingActionButton;
 import com.testphase.materialtest.MyApplication;
 import com.testphase.materialtest.R;
 
@@ -96,6 +98,7 @@ public class SearchFragment extends Fragment {
         volleySingleton = VolleySingleton.getInstance();
         requestQueue = volleySingleton.getRequestQueue();
         //sendJsonRequest();
+
 
     }
 
@@ -178,7 +181,7 @@ public class SearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view  = inflater.inflate(R.layout.fragment_search, container, false);
+        View view = inflater.inflate(R.layout.fragment_search, container, false);
 
         listFirstThings = (RecyclerView) view.findViewById(R.id.listFThings);
         adapterListThings = new AdapterListThings(getActivity());
@@ -188,8 +191,17 @@ public class SearchFragment extends Fragment {
 
         sendJsonRequest();
 
+        android.support.design.widget.FloatingActionButton floatingActionButton = (android.support.design.widget.FloatingActionButton) view.findViewById(R.id.fab);
+
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+
+        });
+
         return view;
-
     }
-
 }
