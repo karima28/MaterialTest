@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.testphase.materialtest.Information;
+import com.testphase.materialtest.pojo.Information;
 import com.testphase.materialtest.R;
 
 import java.util.Collections;

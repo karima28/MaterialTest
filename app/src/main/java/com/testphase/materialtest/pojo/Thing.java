@@ -6,10 +6,9 @@ package com.testphase.materialtest.pojo;
 public class Thing {
     private long id;
     private String name;
-    private String description;
-    private String colour;
-    private double price;
-    private String category;
+    private String shortdescription;
+    private String longdescription;
+    private double goodnessvalue;
 
 
     public Thing() {
@@ -19,28 +18,24 @@ public class Thing {
 
     public Thing(long id,
                  String name,
-                 String description,
-                 String colour,
-                 double price,
-                 String category) {
+                 String shortdescription,
+                 String longdescription,
+                 double goodnessvalue) {
         this.id = id;
         this.name = name;
-        this.description = description;
-        this.colour = colour;
-        this.price = price;
-        this.category = category;
+        this.shortdescription = shortdescription;
+        this.longdescription = longdescription;
+        this.goodnessvalue = goodnessvalue;
     }
 
     public Thing(String name,
-                 String description,
-                 String colour,
-                 double price,
-                 String category) {
+                 String shortdescription,
+                 String longdescription,
+                 double goodnessvalue) {
         this.name = name;
-        this.description = description;
-        this.colour = colour;
-        this.price = price;
-        this.category = category;
+        this.shortdescription = shortdescription;
+        this.longdescription = longdescription;
+        this.goodnessvalue = goodnessvalue;
     }
 
     public long getId() {
@@ -59,44 +54,38 @@ public class Thing {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
+    public String getShortDescription() {
+        return shortdescription;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setShortDescription(String shortdescription) {
+        this.shortdescription = shortdescription;
     }
 
-    public String getColour() {
-        return colour;
+    public String getLongdescription() {
+        return longdescription;
     }
 
-    public void setColour(String colour) {
-        this.colour = colour;
+    public void setLongdescription(String longdescription) {
+        this.longdescription = longdescription;
     }
 
-    public double getPrice() {
-        return price;
+    public double getGoodnessValue() {
+        return goodnessvalue;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setGoodnessvalue(double goodnessvalue) {
+        this.goodnessvalue = goodnessvalue;
     }
 
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
 
     @Override
     public String toString() {
         return "\nID: " + id +
-                "\nProduct " + name +
-                "\nColour " + colour +
-                "\nType " + category +
+                "\nName " + name +
+                "\nShort Description " + shortdescription +
+                "\nLong Description " + longdescription +
+                "\nGoodnessvalue " + goodnessvalue +
                 "\n";
     }
 

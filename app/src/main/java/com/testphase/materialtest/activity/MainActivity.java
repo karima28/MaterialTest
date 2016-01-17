@@ -1,46 +1,34 @@
-package com.testphase.materialtest;
+package com.testphase.materialtest.activity;
 
+import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.testphase.materialtest.adapter.AdapterListThings;
-import com.testphase.materialtest.extra.UrlEndpoints;
-import com.testphase.materialtest.json.JsonUtil;
+import com.testphase.materialtest.R;
 import com.testphase.materialtest.layout.NavigationDrawerFragment;
-import com.testphase.materialtest.layout.SearchFragment;
-import com.testphase.materialtest.logging.L;
-import com.testphase.materialtest.network.PostRequest;
-import com.testphase.materialtest.network.VolleySingleton;
-import com.testphase.materialtest.pojo.Thing;
+import com.testphase.materialtest.layout.PrimaryListFragment;
+import com.testphase.materialtest.services.MyService;
 
-import org.json.JSONObject;
+import me.tatarka.support.job.JobInfo;
+import me.tatarka.support.job.JobScheduler;
 
-import java.util.ArrayList;
-import static com.testphase.materialtest.layout.SearchFragment.*;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final int JOB_ID = 100;
     private Toolbar toolbar;
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     private RecyclerView.Adapter mAdapter;
+
+    private JobScheduler mJobScheduler;
 
 
     @Override
@@ -52,26 +40,16 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        mJobScheduler = JobScheduler.getInstance(this);
+        constructJob();
+
         NavigationDrawerFragment drawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
 
         drawerFragment.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), toolbar);
 
-//        AdapterListThings things = new AdapterListThings();
-
-/*
-        mRecyclerView = (RecyclerView) findViewById(R.id.fragment_search);
-
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-
-        mAdapter = new AdapterListThings(this);
-        mRecyclerView.setAdapter(mAdapter);
-*/
-
-
-        SearchFragment searchFragment = (SearchFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_search);
-        searchFragment.newInstance("", "");
+        PrimaryListFragment primaryListFragment = (PrimaryListFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_search);
+        primaryListFragment.newInstance("","");
 
     }
 
@@ -92,10 +70,18 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         if (id == R.id.add) {
-            startActivity(new Intent(this, SubActivity.class));
+            startActivity(new Intent(this, AddActivity.class));
         }
         return super.onOptionsItemSelected(item);
     }
 
+    private void constructJob(){
+        JobInfo.Builder builder = new JobInfo.Builder(JOB_ID, new ComponentName(this, MyService.class));
+        builder.setPeriodic(2000)
+                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED)
+                .setPersisted(true);
+
+        mJobScheduler.schedule(builder.build());
+    }
 
 }

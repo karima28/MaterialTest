@@ -8,10 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.android.volley.toolbox.ImageLoader;
 import com.testphase.materialtest.R;
-import com.testphase.materialtest.network.VolleySingleton;
 import com.testphase.materialtest.pojo.Thing;
 
 import java.util.ArrayList;
@@ -23,13 +20,10 @@ public class AdapterListThings extends RecyclerView.Adapter<AdapterListThings.Vi
 
     private LayoutInflater mInflater;
     private ArrayList<Thing> mListThings = new ArrayList<>();
-    //private VolleySingleton mVolleySingleton;
-    //private ImageLoader mImageLoader;
+
 
     public AdapterListThings(Context context){
         mInflater = LayoutInflater.from(context);
-        //mVolleySingleton = VolleySingleton.getInstance();
-        //mImageLoader = mVolleySingleton.getImageLoader();
     }
 
     public void setListThings(ArrayList<Thing> listThings){
@@ -48,7 +42,7 @@ public class AdapterListThings extends RecyclerView.Adapter<AdapterListThings.Vi
     public void onBindViewHolder(ViewHolderListThings holder, int position) {
         Thing currentThing  = mListThings.get(position);
         holder.listThingsName.setText(currentThing.getName());
-        holder.listThingsDescription.setText(currentThing.getDescription());
+        holder.listThingsShortDescription.setText(currentThing.getShortDescription());
     }
 
     @Override
@@ -60,14 +54,14 @@ public class AdapterListThings extends RecyclerView.Adapter<AdapterListThings.Vi
 
         //private ImageView listThingsIcon;
         TextView listThingsName;
-        TextView listThingsDescription;
+        TextView listThingsShortDescription;
 
 
         public ViewHolderListThings(View itemView) {
             super(itemView);
             //listThingsIcon = (ImageView) itemView.findViewById(R.id.listThingsIcon);
             listThingsName = (TextView) itemView.findViewById(R.id.listThingsName);
-            listThingsDescription = (TextView) itemView.findViewById(R.id.listThingsDescription);
+            listThingsShortDescription = (TextView) itemView.findViewById(R.id.listThingsShortDescription);
         }
     }
 

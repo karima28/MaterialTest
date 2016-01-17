@@ -18,7 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.testphase.materialtest.adapter.InfoAdapter;
-import com.testphase.materialtest.Information;
+import com.testphase.materialtest.pojo.Information;
 import com.testphase.materialtest.R;
 
 import java.util.ArrayList;

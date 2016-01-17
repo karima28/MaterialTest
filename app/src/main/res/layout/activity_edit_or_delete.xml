@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".activity.SubActivity">
+    tools:context=".activity.EditOrDelete">
 
     <include
         android:id="@+id/app_bar"
@@ -99,20 +98,38 @@
             android:layout_toLeftOf="@+id/TextViewGoodnessValue"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/EditTextLongDescription"
-            android:inputType="number"/>
+            android:inputType="text"/>
 
-        <Button
-            android:id="@+id/saveButton"
-            android:layout_width="wrap_content"
+
+        <LinearLayout
+            android:id="@+id/buttonLayout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/activity_vertical_margin"
-            android:text="@string/save"
-            android:textSize="14sp"
             android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true">
 
+            <Button
+                android:id="@+id/deleteButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="@dimen/activity_vertical_margin"
+                android:layout_margin="@dimen/activity_vertical_margin"
+                android:text="@string/delete"
+                android:textSize="16sp"/>
+
+            <Button
+                android:id="@+id/editButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="@dimen/activity_vertical_margin"
+                android:layout_margin="@dimen/activity_vertical_margin"
+                android:text="@string/edit"
+                android:textSize="16sp"/>
+
+        </LinearLayout>
 
     </RelativeLayout>
-
 
 </FrameLayout>

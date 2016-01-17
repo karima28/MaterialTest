@@ -12,7 +12,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.testphase.materialtest.MainActivity">
+        tools:context=".activity.MainActivity">
 
         <include
             android:id="@+id/app_bar"
@@ -25,8 +25,8 @@
             android:layout_height="match_parent"
             android:layout_gravity="start"
             android:layout_marginTop="56dp"
-            android:name="com.testphase.materialtest.layout.SearchFragment"
-            tools:layout="@layout/fragment_search" />
+            android:name="com.testphase.materialtest.layout.PrimaryListFragment"
+            tools:layout="@layout/fragment_primary_list" />
 
     </RelativeLayout>
 

@@ -3,13 +3,16 @@ package com.testphase.materialtest;
 import android.app.Application;
 import android.content.Context;
 
+import com.testphase.materialtest.database.ProductDatabase;
+
 /**
  * Created by deea on 07/01/16.
  */
 public class MyApplication extends Application {
 
     private static MyApplication sInstance;
-    public static final String API_KEY_RT = "54wzfswsa4qmjg8hjwa64d4c";
+
+    private static ProductDatabase mDatabase;
 
     @Override
     public void onCreate() {
@@ -23,5 +26,12 @@ public class MyApplication extends Application {
 
     public static Context getAppContext() {
         return sInstance.getApplicationContext();
+    }
+
+    public synchronized static ProductDatabase getWritableDatabase(){
+        if(mDatabase == null){
+            mDatabase = new ProductDatabase(getAppContext());
+        }
+        return mDatabase;
     }
 }

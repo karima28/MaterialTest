@@ -1,4 +1,4 @@
-package com.testphase.materialtest;
+package com.testphase.materialtest.pojo;
 
 /**
  * Created by deea on 06/01/16.
