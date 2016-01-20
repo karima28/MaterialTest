@@ -1,18 +1,23 @@
 package com.testphase.materialtest.layout;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.testphase.materialtest.R;
 import com.testphase.materialtest.activity.AddActivity;
 import com.testphase.materialtest.activity.EditOrDelete;
+import com.testphase.materialtest.activity.ItemDisplayActivity;
 import com.testphase.materialtest.adapter.AdapterListThings;
 import com.testphase.materialtest.database.ProductDatabase;
 import com.testphase.materialtest.logging.L;
@@ -77,7 +82,6 @@ public class PrimaryListFragment extends Fragment {
     private ArrayList<Thing> getResults() {
 
         mProductDatabase = new ProductDatabase(getContext());
-        //dbHelper = new DbHelper(getContext());
 
         L.m("The getResults method executed");
 
@@ -105,7 +109,30 @@ public class PrimaryListFragment extends Fragment {
         listThings = getResults();
         adapterListThings.setListThings(listThings);
 
+        listFirstThings.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), listFirstThings, new PrimaryListFragment.ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
 
+                Thing thing = mProductDatabase.readItem(position);
+
+                Intent intent = new Intent(getActivity(), ItemDisplayActivity.class);
+
+                intent.putExtra("KEY_EXTRA_NAME", thing.getName());
+                intent.putExtra("KEY_EXTRA_SDESC", thing.getShortDescription());
+                intent.putExtra("KEY_EXTRA_LDESC", thing.getLongdescription());
+                intent.putExtra("KEY_EXTRA_GVALUE", thing.getGoodnessValue());
+
+                startActivity(intent);
+                //L.T(getContext(), "Item: " + thing);
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+                //mProductDatabase.deleteItem(position);
+                L.t(getContext(), "Item should be deleted.");
+            }
+        }));
 
         android.support.design.widget.FloatingActionButton floatingActionButton = (android.support.design.widget.FloatingActionButton) view.findViewById(R.id.fab);
 
@@ -120,5 +147,60 @@ public class PrimaryListFragment extends Fragment {
 
         return view;
     }
+
+    class RecyclerTouchListener implements RecyclerView.OnItemTouchListener{
+
+        private GestureDetector gestureDetector;
+        private ClickListener clickListener;
+
+        public RecyclerTouchListener(Context context, final RecyclerView recyclerView, final ClickListener clickListener){
+            this.clickListener = clickListener;
+            gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener(){
+
+                @Override
+                public boolean onSingleTapUp(MotionEvent e) {
+                    return true;
+                }
+
+
+                @Override
+                public void onLongPress(MotionEvent e) {
+                    View child = recyclerView.findChildViewUnder(e.getX(),e.getY());
+                    if(child != null && clickListener != null){
+                        clickListener.onLongClick(child, recyclerView.getChildAdapterPosition(child));
+                    }
+                }
+            });
+        }
+
+        @Override
+        public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+
+            View child = rv.findChildViewUnder(e.getX(),e.getY());
+
+            if(child != null && clickListener != null && gestureDetector.onTouchEvent(e)){
+
+                clickListener.onClick(child, rv.getChildAdapterPosition(child));
+            }
+
+            return false;
+        }
+
+        @Override
+        public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+
+        }
+
+        @Override
+        public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+        }
+    }
+
+    public static interface ClickListener{
+        public void onClick(View view, int position);
+        public void onLongClick(View view, int position);
+    }
+
 
 }

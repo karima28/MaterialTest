@@ -76,7 +76,7 @@ public class NavigationDrawerFragment extends Fragment {
             @Override
             public void onLongClick(View view, int position) {
 
-                Toast.makeText(getActivity(), "onLongClick at " +position, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "onLongClick at " + position, Toast.LENGTH_SHORT).show();
             }
         }));
         return layout;

@@ -10,12 +10,5 @@
         android:orderInCategory="100"
         app:showAsAction="never" />
 
-    <item
-        android:id="@+id/add"
-        android:title="@string/add"
-        android:orderInCategory="200"
-        android:icon="@drawable/ic_add_circle_black_24dp"
-        app:showAsAction="always" />
-
 
 </menu>

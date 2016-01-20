@@ -22,13 +22,13 @@ import me.tatarka.support.job.JobScheduler;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final int JOB_ID = 100;
+    //private static final int JOB_ID = 100;
     private Toolbar toolbar;
-    private RecyclerView mRecyclerView;
-    private RecyclerView.LayoutManager mLayoutManager;
-    private RecyclerView.Adapter mAdapter;
+    //private RecyclerView mRecyclerView;
+    //private RecyclerView.LayoutManager mLayoutManager;
+    //private RecyclerView.Adapter mAdapter;
 
-    private JobScheduler mJobScheduler;
+    //private JobScheduler mJobScheduler;
 
 
     @Override
@@ -36,19 +36,22 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_appbar);
 
+        //Toolbar
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        mJobScheduler = JobScheduler.getInstance(this);
-        constructJob();
+        //Background Processes
+        /*mJobScheduler = JobScheduler.getInstance(this);
+        constructJob();*/
 
+        //Navigation Drawer
         NavigationDrawerFragment drawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
-
         drawerFragment.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), toolbar);
 
-        PrimaryListFragment primaryListFragment = (PrimaryListFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_search);
+        //Recyclerview main list
+        PrimaryListFragment primaryListFragment = (PrimaryListFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_primary_list);
         primaryListFragment.newInstance("","");
 
     }
@@ -69,19 +72,16 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "You have clicked " + item.getTitle(), Toast.LENGTH_SHORT).show();
             return true;
         }
-        if (id == R.id.add) {
-            startActivity(new Intent(this, AddActivity.class));
-        }
         return super.onOptionsItemSelected(item);
     }
 
-    private void constructJob(){
+    /*private void constructJob(){
         JobInfo.Builder builder = new JobInfo.Builder(JOB_ID, new ComponentName(this, MyService.class));
-        builder.setPeriodic(2000)
+        builder.setPeriodic(20000)
                 .setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED)
                 .setPersisted(true);
 
         mJobScheduler.schedule(builder.build());
-    }
+    }*/
 
 }
