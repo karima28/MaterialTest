@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.testphase.materialtest.R;
 import com.testphase.materialtest.database.ProductDatabase;
@@ -26,7 +27,8 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
 
     ProductDatabase mProductDatabase;
 
-    ArrayList<Thing> listThings = new ArrayList<>();
+    private Toolbar toolbar;
+
 
     EditText EditTextName;
     EditText EditTextShortDescription;
@@ -35,13 +37,11 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
 
     Button saveButton;
 
-    int itemID;
+    //int itemID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        //itemID = getIntent().getIntExtra(PrimaryListFragment.KEY_EXTRA_CONTACT_ID, 0);
 
         setContentView(R.layout.activity_sub);
 
@@ -54,10 +54,9 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         saveButton.setOnClickListener(this);
 
 
-        /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);*/
-
     }
+
+
 
 
     @Override
@@ -65,7 +64,22 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         int id = view.getId();
 
         if(id == R.id.saveButton) {
-            persistItem();
+            String name = EditTextName.getText().toString();
+            String sdesc = EditTextShortDescription.getText().toString();
+            String ldesc = EditTextLongDescription.getText().toString();
+            Integer gvalue = Integer.parseInt(EditTextGoodnessValue.getText().toString());
+
+            Thing thing = new Thing(name, sdesc, ldesc, gvalue);
+
+            mProductDatabase = new ProductDatabase(this);
+            mProductDatabase.insertItem(thing);
+
+            L.T(getApplicationContext(), "Item " + name + " added");
+
+
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
         }
     }
 
@@ -87,27 +101,6 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         return super.onOptionsItemSelected(item);
     }
 
-    public void persistItem() {
-
-
-        String name = EditTextName.getText().toString();
-        String sdesc = EditTextShortDescription.getText().toString();
-        String ldesc = EditTextLongDescription.getText().toString();
-        Integer gvalue = Integer.parseInt(EditTextGoodnessValue.getText().toString());
-
-        Thing thing = new Thing(name, sdesc, ldesc, gvalue);
-
-        mProductDatabase = new ProductDatabase(this);
-        mProductDatabase.insertItem(thing);
-
-        L.T(getApplicationContext(), "Item " + name + " added");
-
-
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-
-    }
 
 
 }

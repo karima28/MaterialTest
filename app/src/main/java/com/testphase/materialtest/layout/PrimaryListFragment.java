@@ -1,10 +1,12 @@
 package com.testphase.materialtest.layout;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.GestureDetector;
@@ -18,6 +20,7 @@ import com.testphase.materialtest.R;
 import com.testphase.materialtest.activity.AddActivity;
 import com.testphase.materialtest.activity.EditOrDelete;
 import com.testphase.materialtest.activity.ItemDisplayActivity;
+import com.testphase.materialtest.activity.MainActivity;
 import com.testphase.materialtest.adapter.AdapterListThings;
 import com.testphase.materialtest.database.ProductDatabase;
 import com.testphase.materialtest.logging.L;
@@ -43,7 +46,6 @@ public class PrimaryListFragment extends Fragment {
 
     ProductDatabase mProductDatabase;
 
-    //public final static String KEY_EXTRA_CONTACT_ID = "KEY_EXTRA_CONTACT_ID";
 
     public PrimaryListFragment() {
         // Required empty public constructor
@@ -83,15 +85,8 @@ public class PrimaryListFragment extends Fragment {
 
         mProductDatabase = new ProductDatabase(getContext());
 
-        L.m("The getResults method executed");
-
         return mProductDatabase.readItems();
-
-
     }
-
-
-
 
 
 
@@ -113,24 +108,41 @@ public class PrimaryListFragment extends Fragment {
             @Override
             public void onClick(View view, int position) {
 
-                Thing thing = mProductDatabase.readItem(position);
+                Thing thing = listThings.get(position);
 
                 Intent intent = new Intent(getActivity(), ItemDisplayActivity.class);
 
+                intent.putExtra("KEY_EXTRA_ID", thing.getId());
                 intent.putExtra("KEY_EXTRA_NAME", thing.getName());
                 intent.putExtra("KEY_EXTRA_SDESC", thing.getShortDescription());
                 intent.putExtra("KEY_EXTRA_LDESC", thing.getLongdescription());
                 intent.putExtra("KEY_EXTRA_GVALUE", thing.getGoodnessValue());
 
                 startActivity(intent);
-                //L.T(getContext(), "Item: " + thing);
             }
 
             @Override
-            public void onLongClick(View view, int position) {
+            public void onLongClick(View view, final int position) {
 
-                //mProductDatabase.deleteItem(position);
-                L.t(getContext(), "Item should be deleted.");
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setMessage(R.string.deleteItem)
+                        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                mProductDatabase.deleteThing(listThings.get(position).getId());
+                                Toast.makeText(getContext(), "Successfully deleted item ", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(getContext(), MainActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intent);
+                            }
+                        })
+                        .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // User cancelled the dialog
+                            }
+                        });
+                AlertDialog d = builder.create();
+                d.setTitle("Delete Item?");
+                d.show();
             }
         }));
 

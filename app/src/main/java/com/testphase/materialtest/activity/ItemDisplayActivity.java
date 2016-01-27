@@ -1,9 +1,12 @@
 package com.testphase.materialtest.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,6 +17,7 @@ import android.widget.Toast;
 
 import com.testphase.materialtest.R;
 import com.testphase.materialtest.adapter.AdapterListThings;
+import com.testphase.materialtest.database.DbHelper;
 import com.testphase.materialtest.database.ProductDatabase;
 import com.testphase.materialtest.logging.L;
 import com.testphase.materialtest.pojo.Thing;
@@ -23,14 +27,10 @@ import java.util.ArrayList;
 /**
  * Created by deea on 18/01/16.
  */
-public class ItemDisplayActivity extends AppCompatActivity{
+public class ItemDisplayActivity extends AppCompatActivity implements View.OnClickListener{
 
-    ProductDatabase mProductDatabase;
+    //private Toolbar toolbar;
 
-    //ArrayList<Thing> listThings = new ArrayList<>();
-
-    TextView TextViewName;
-    TextView TextViewShortDescription;
     TextView TextViewLongDescription;
     TextView TextViewGoodnessValue;
     TextView TextItemName;
@@ -44,6 +44,11 @@ public class ItemDisplayActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        /*toolbar = (Toolbar) findViewById(R.id.app_bar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);*/
+
+        Long itemid = 0L;
         String name = "";
         String sdesc = "";
         String ldesc = "";
@@ -51,6 +56,7 @@ public class ItemDisplayActivity extends AppCompatActivity{
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
+            itemid = extras.getLong("KEY_EXTRA_ID");
             name = extras.getString("KEY_EXTRA_NAME");
             sdesc = extras.getString("KEY_EXTRA_SDESC");
             ldesc = extras.getString("KEY_EXTRA_LDESC");
@@ -58,10 +64,10 @@ public class ItemDisplayActivity extends AppCompatActivity{
         }
 
 
+        Thing thing = new Thing(itemid, name, sdesc, ldesc, gvalue);
+
         setContentView(R.layout.activity_display_item);
 
-        TextViewName = (TextView) findViewById(R.id.TextViewName);
-        TextViewShortDescription = (TextView) findViewById(R.id.TextViewShortDescription);
         TextViewLongDescription = (TextView) findViewById(R.id.TextViewLongDescription);
         TextViewGoodnessValue = (TextView) findViewById(R.id.TextViewGoodnessValue);
         TextItemName = (TextView) findViewById(R.id.TextItemName);
@@ -71,37 +77,17 @@ public class ItemDisplayActivity extends AppCompatActivity{
 
 
         deleteButton = (Button) findViewById(R.id.deleteButton);
-
-
-        //Thing thing = new Thing();
-
-        //deleteButton.setOnClickListener(this);
-
-
-        /*String name = thing.getName();
-        String shortDescription = thing.getShortDescription();
-        String longDescription = thing.getLongdescription();
-        double goodnessValue = thing.getGoodnessValue();*/
+        deleteButton.setOnClickListener(this);
 
         TextItemName.setText(name);
         TextItemShortDescription.setText(sdesc);
         TextItemLongDescription.setText(ldesc);
         TextItemGoodnessValue.setText(Double.toString(gvalue));
 
-        /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);*/
 
     }
 
 
-    /*@Override
-    public void onClick(View view) {
-        int id = view.getId();
-
-        if(id == R.id.deleteButton) {
-            mProductDatabase.deleteItem(thing.getName());
-        }
-    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
@@ -122,4 +108,27 @@ public class ItemDisplayActivity extends AppCompatActivity{
     }
 
 
+    @Override
+    public void onClick(View v) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.deleteItem)
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        ProductDatabase mProductDatabase = new ProductDatabase(getApplicationContext());
+                        mProductDatabase.deleteThing(getIntent().getExtras().getLong("KEY_EXTRA_ID"));
+                        Toast.makeText(getApplicationContext(), "Successfully deleted item ", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                    }
+                })
+                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User cancelled the dialog
+                    }
+                });
+        AlertDialog d = builder.create();
+        d.setTitle("Delete Item?");
+        d.show();
+    }
 }

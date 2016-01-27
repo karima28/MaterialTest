@@ -22,6 +22,13 @@ public class ProductDatabase {
 
     private DbHelper dbHelper;
     private SQLiteDatabase mDatabase;
+    private final String[] columns = {
+                                        DbHelper.ITEM_COLUMN_ID,
+                                        DbHelper.ITEM_COLUMN_NAME,
+                                        DbHelper.ITEM_COLUMN_LONG_DESC,
+                                        DbHelper.ITEM_COLUMN_SHORT_DESC,
+                                        DbHelper.ITEM_COLUMN_GOODNESS_VALUE
+                                    };
 
     public ProductDatabase(Context context) {
         dbHelper = new DbHelper(context);
@@ -59,31 +66,22 @@ public class ProductDatabase {
 
 
 
+    //Change name to getItems
     public ArrayList<Thing> readItems() {
 
         ArrayList<Thing> listThings = new ArrayList<>();
 
-        //get a list of columns to be retrieved, we need all of them
-        String[] columns = {DbHelper.ITEM_COLUMN_ID,
-                DbHelper.ITEM_COLUMN_NAME,
-                DbHelper.ITEM_COLUMN_SHORT_DESC,
-                DbHelper.ITEM_COLUMN_LONG_DESC,
-                DbHelper.ITEM_COLUMN_GOODNESS_VALUE
-        };
         Cursor cursor = mDatabase.query(DbHelper.ITEM_TABLE_NAME, columns, null, null, null, null, null);
         if (cursor != null && cursor.moveToFirst()) {
             L.m("loading entries " + cursor.getCount());
             do {
 
                 //create a new object and retrieve the data from the cursor to be stored in this object
-                Thing thing = new Thing();
-                //each step is a 2 part process, find the index of the column first, find the data of that column using
-                //that index and finally set our blank object to contain our data
-                thing.setName((cursor.getString(cursor.getColumnIndex(DbHelper.ITEM_COLUMN_NAME))));
-                thing.setShortDescription(cursor.getString(cursor.getColumnIndex(DbHelper.ITEM_COLUMN_SHORT_DESC)));
-                thing.setLongdescription(cursor.getString(cursor.getColumnIndex(DbHelper.ITEM_COLUMN_LONG_DESC)));
-                thing.setGoodnessvalue(cursor.getDouble(cursor.getColumnIndex(DbHelper.ITEM_COLUMN_GOODNESS_VALUE)));
-
+                Thing thing = new Thing(cursor.getLong(cursor.getColumnIndex(DbHelper.ITEM_COLUMN_ID)),
+                                        cursor.getString(cursor.getColumnIndex(DbHelper.ITEM_COLUMN_NAME)),
+                                        cursor.getString(cursor.getColumnIndex(DbHelper.ITEM_COLUMN_SHORT_DESC)),
+                                        cursor.getString(cursor.getColumnIndex(DbHelper.ITEM_COLUMN_LONG_DESC)),
+                                        cursor.getDouble(cursor.getColumnIndex(DbHelper.ITEM_COLUMN_GOODNESS_VALUE)));
                 listThings.add(thing);
 
             } while (cursor.moveToNext());
@@ -92,77 +90,29 @@ public class ProductDatabase {
         return listThings;
     }
 
+    //change name to getItem
     public Thing readItem(int position){
-
-        String[] columns = {DbHelper.ITEM_COLUMN_ID,
-                DbHelper.ITEM_COLUMN_NAME,
-                DbHelper.ITEM_COLUMN_SHORT_DESC,
-                DbHelper.ITEM_COLUMN_LONG_DESC,
-                DbHelper.ITEM_COLUMN_GOODNESS_VALUE
-        };
 
         Cursor cursor = mDatabase.query(DbHelper.ITEM_TABLE_NAME, columns, null, null, null, null, null);
 
-        Thing thing = new Thing();
-
+        Thing thing = null;
         if(cursor != null && cursor.moveToPosition(position))
         {
-
-            thing.setName((cursor.getString(cursor.getColumnIndex(DbHelper.ITEM_COLUMN_NAME))));
-            thing.setShortDescription(cursor.getString(cursor.getColumnIndex(DbHelper.ITEM_COLUMN_SHORT_DESC)));
-            thing.setLongdescription(cursor.getString(cursor.getColumnIndex(DbHelper.ITEM_COLUMN_LONG_DESC)));
-            thing.setGoodnessvalue(cursor.getDouble(cursor.getColumnIndex(DbHelper.ITEM_COLUMN_GOODNESS_VALUE)));
+            thing = new Thing(cursor.getLong(cursor.getColumnIndex(DbHelper.ITEM_COLUMN_ID)),
+                    cursor.getString(cursor.getColumnIndex(DbHelper.ITEM_COLUMN_NAME)),
+                    cursor.getString(cursor.getColumnIndex(DbHelper.ITEM_COLUMN_SHORT_DESC)),
+                    cursor.getString(cursor.getColumnIndex(DbHelper.ITEM_COLUMN_LONG_DESC)),
+                    cursor.getDouble(cursor.getColumnIndex(DbHelper.ITEM_COLUMN_GOODNESS_VALUE)));
         }
 
         return thing;
     }
 
-    public String getItem(int position){
 
-        String[] columns = {DbHelper.ITEM_COLUMN_ID,
-                DbHelper.ITEM_COLUMN_NAME,
-                DbHelper.ITEM_COLUMN_SHORT_DESC,
-                DbHelper.ITEM_COLUMN_LONG_DESC,
-                DbHelper.ITEM_COLUMN_GOODNESS_VALUE
-        };
+    public void deleteThing(long id) {
 
-        Cursor cursor = mDatabase.query(DbHelper.ITEM_TABLE_NAME, columns, null, null, null, null, null);
+        mDatabase.delete(DbHelper.ITEM_TABLE_NAME, DbHelper.ITEM_COLUMN_ID +"=?", new String[] {Long.toString(id)});
 
-        Thing thing = new Thing();
-
-        if(cursor != null && cursor.moveToPosition(position))
-        {
-
-            thing.setName((cursor.getString(cursor.getColumnIndex(DbHelper.ITEM_COLUMN_NAME))));
-            thing.setShortDescription(cursor.getString(cursor.getColumnIndex(DbHelper.ITEM_COLUMN_SHORT_DESC)));
-            thing.setLongdescription(cursor.getString(cursor.getColumnIndex(DbHelper.ITEM_COLUMN_LONG_DESC)));
-            thing.setGoodnessvalue(cursor.getDouble(cursor.getColumnIndex(DbHelper.ITEM_COLUMN_GOODNESS_VALUE)));
-        }
-
-        String information = thing.getName() + thing.getShortDescription() + thing.getLongdescription() + Double.toString(thing.getGoodnessValue());
-
-        return information;
-    }
-
-    public void deleteItem(int position) {
-        /*String sql = "DELETE FROM " + (DbHelper.ITEM_TABLE_NAME) + "WHERE " + DbHelper.ITEM_COLUMN_ID + " = ? ";
-        SQLiteStatement statement = mDatabase.compileStatement(sql);
-        mDatabase.delete(DbHelper.ITEM_TABLE_NAME, null, null);*/
-
-        long id = readItem(position).getId();
-        String[] columns = {DbHelper.ITEM_COLUMN_ID,
-                DbHelper.ITEM_COLUMN_NAME,
-                DbHelper.ITEM_COLUMN_SHORT_DESC,
-                DbHelper.ITEM_COLUMN_LONG_DESC,
-                DbHelper.ITEM_COLUMN_GOODNESS_VALUE
-        };
-
-        Cursor cursor = mDatabase.query(DbHelper.ITEM_TABLE_NAME, columns, null, null, null, null, null);
-
-        if(cursor != null && cursor.moveToPosition(position))
-        {
-            mDatabase.delete(DbHelper.ITEM_TABLE_NAME, DbHelper.ITEM_COLUMN_ID +"=?", columns);
-        }
 
     }
 

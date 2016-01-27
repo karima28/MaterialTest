@@ -15,7 +15,6 @@ public class Thing {
 
     }
 
-
     public Thing(long id,
                  String name,
                  String shortdescription,
