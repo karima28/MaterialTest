@@ -20,6 +20,7 @@ import com.testphase.materialtest.pojo.Thing;
 
 import java.util.ArrayList;
 
+
 /**
  * Created by deea on 15/01/16.
  */
@@ -29,15 +30,12 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
 
     private Toolbar toolbar;
 
-
     EditText EditTextName;
     EditText EditTextShortDescription;
     EditText EditTextLongDescription;
     EditText EditTextGoodnessValue;
 
     Button saveButton;
-
-    //int itemID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,9 +54,6 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
 
     }
 
-
-
-
     @Override
     public void onClick(View view) {
         int id = view.getId();
@@ -72,7 +67,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
             Thing thing = new Thing(name, sdesc, ldesc, gvalue);
 
             mProductDatabase = new ProductDatabase(this);
-            mProductDatabase.insertItem(thing);
+            mProductDatabase.insertProduct(thing);
 
             L.T(getApplicationContext(), "Item " + name + " added");
 

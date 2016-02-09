@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,7 +21,6 @@ import com.testphase.materialtest.database.ProductDatabase;
 import com.testphase.materialtest.logging.L;
 import com.testphase.materialtest.pojo.Thing;
 
-import java.util.ArrayList;
 
 /**
  * Created by deea on 18/01/16.
@@ -40,6 +38,8 @@ public class ItemDisplayActivity extends AppCompatActivity implements View.OnCli
 
     Button deleteButton;
 
+    ProductDatabase mProductDatabase;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,22 +49,15 @@ public class ItemDisplayActivity extends AppCompatActivity implements View.OnCli
         getSupportActionBar().setDisplayShowHomeEnabled(true);*/
 
         Long itemid = 0L;
-        String name = "";
-        String sdesc = "";
-        String ldesc = "";
-        Double gvalue = 0.0;
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            itemid = extras.getLong("KEY_EXTRA_ID");
-            name = extras.getString("KEY_EXTRA_NAME");
-            sdesc = extras.getString("KEY_EXTRA_SDESC");
-            ldesc = extras.getString("KEY_EXTRA_LDESC");
-            gvalue = extras.getDouble("KEY_EXTRA_GVALUE");
+            itemid = extras.getLong("KEY_EXTRA_PRODUCT_ID");
         }
 
+        mProductDatabase = new ProductDatabase(getApplicationContext());
 
-        Thing thing = new Thing(itemid, name, sdesc, ldesc, gvalue);
+        Thing thing = mProductDatabase.getProduct(itemid);
 
         setContentView(R.layout.activity_display_item);
 
@@ -79,11 +72,10 @@ public class ItemDisplayActivity extends AppCompatActivity implements View.OnCli
         deleteButton = (Button) findViewById(R.id.deleteButton);
         deleteButton.setOnClickListener(this);
 
-        TextItemName.setText(name);
-        TextItemShortDescription.setText(sdesc);
-        TextItemLongDescription.setText(ldesc);
-        TextItemGoodnessValue.setText(Double.toString(gvalue));
-
+        TextItemName.setText(thing.getName());
+        TextItemShortDescription.setText(thing.getShortDescription());
+        TextItemLongDescription.setText(thing.getLongdescription());
+        TextItemGoodnessValue.setText(Double.toString(thing.getGoodnessValue()));
 
     }
 
@@ -115,7 +107,7 @@ public class ItemDisplayActivity extends AppCompatActivity implements View.OnCli
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         ProductDatabase mProductDatabase = new ProductDatabase(getApplicationContext());
-                        mProductDatabase.deleteThing(getIntent().getExtras().getLong("KEY_EXTRA_ID"));
+                        mProductDatabase.deleteProduct(getIntent().getExtras().getLong("KEY_EXTRA_PRODUCT_ID"));
                         Toast.makeText(getApplicationContext(), "Successfully deleted item ", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

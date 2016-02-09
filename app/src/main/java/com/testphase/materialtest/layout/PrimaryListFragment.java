@@ -18,7 +18,6 @@ import android.widget.Toast;
 
 import com.testphase.materialtest.R;
 import com.testphase.materialtest.activity.AddActivity;
-import com.testphase.materialtest.activity.EditOrDelete;
 import com.testphase.materialtest.activity.ItemDisplayActivity;
 import com.testphase.materialtest.activity.MainActivity;
 import com.testphase.materialtest.adapter.AdapterListThings;
@@ -85,7 +84,7 @@ public class PrimaryListFragment extends Fragment {
 
         mProductDatabase = new ProductDatabase(getContext());
 
-        return mProductDatabase.readItems();
+        return mProductDatabase.getAllProducts();
     }
 
 
@@ -110,13 +109,21 @@ public class PrimaryListFragment extends Fragment {
 
                 Thing thing = listThings.get(position);
 
+                long itemID = thing.getId();
+
+                //thing = mProductDatabase.getItem(itemID);
+
+                //L.m(thing.getName());
+
                 Intent intent = new Intent(getActivity(), ItemDisplayActivity.class);
 
-                intent.putExtra("KEY_EXTRA_ID", thing.getId());
-                intent.putExtra("KEY_EXTRA_NAME", thing.getName());
-                intent.putExtra("KEY_EXTRA_SDESC", thing.getShortDescription());
-                intent.putExtra("KEY_EXTRA_LDESC", thing.getLongdescription());
-                intent.putExtra("KEY_EXTRA_GVALUE", thing.getGoodnessValue());
+                intent.putExtra("KEY_EXTRA_PRODUCT_ID", itemID);
+                //intent.putExtra("KEY_EXTRA_NAME", thing.getName());
+                //intent.putExtra("KEY_EXTRA_SDESC", thing.getShortDescription());
+                //intent.putExtra("KEY_EXTRA_LDESC", thing.getLongdescription());
+                //intent.putExtra("KEY_EXTRA_GVALUE", thing.getGoodnessValue());
+
+                L.m(Long.toString(itemID));
 
                 startActivity(intent);
             }
@@ -128,7 +135,7 @@ public class PrimaryListFragment extends Fragment {
                 builder.setMessage(R.string.deleteItem)
                         .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                mProductDatabase.deleteThing(listThings.get(position).getId());
+                                mProductDatabase.deleteProduct(listThings.get(position).getId());
                                 Toast.makeText(getContext(), "Successfully deleted item ", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(getContext(), MainActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

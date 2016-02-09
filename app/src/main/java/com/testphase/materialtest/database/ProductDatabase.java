@@ -36,11 +36,7 @@ public class ProductDatabase {
     }
 
 
-    public void updateItem(Thing thing) {
-
-    }
-
-    public void insertItem(Thing thing){
+    public void insertProduct(Thing thing){
 
         String sql = "INSERT INTO " + (DbHelper.ITEM_TABLE_NAME) + " (" +
                 DbHelper.ITEM_COLUMN_NAME + ", " +
@@ -65,9 +61,7 @@ public class ProductDatabase {
     }
 
 
-
-    //Change name to getItems
-    public ArrayList<Thing> readItems() {
+    public ArrayList<Thing> getAllProducts() {
 
         ArrayList<Thing> listThings = new ArrayList<>();
 
@@ -90,13 +84,13 @@ public class ProductDatabase {
         return listThings;
     }
 
-    //change name to getItem
-    public Thing readItem(int position){
+    public Thing getProduct(long id){
 
-        Cursor cursor = mDatabase.query(DbHelper.ITEM_TABLE_NAME, columns, null, null, null, null, null);
+        Cursor cursor = mDatabase.query(DbHelper.ITEM_TABLE_NAME, columns, DbHelper.ITEM_COLUMN_ID + " = " + id, null, null, null, null);
 
         Thing thing = null;
-        if(cursor != null && cursor.moveToPosition(position))
+
+        if(cursor != null && cursor.moveToFirst())
         {
             thing = new Thing(cursor.getLong(cursor.getColumnIndex(DbHelper.ITEM_COLUMN_ID)),
                     cursor.getString(cursor.getColumnIndex(DbHelper.ITEM_COLUMN_NAME)),
@@ -105,18 +99,17 @@ public class ProductDatabase {
                     cursor.getDouble(cursor.getColumnIndex(DbHelper.ITEM_COLUMN_GOODNESS_VALUE)));
         }
 
+
         return thing;
     }
 
 
-    public void deleteThing(long id) {
+    public void deleteProduct(long id) {
 
         mDatabase.delete(DbHelper.ITEM_TABLE_NAME, DbHelper.ITEM_COLUMN_ID +"=?", new String[] {Long.toString(id)});
 
 
     }
-
-
 
 
 }
