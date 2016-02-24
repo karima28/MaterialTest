@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="@dimen/tile_height">
+
+    <ImageView
+        android:id="@+id/listThingsIcon"
+        android:src="@drawable/ic_launcher"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_centerVertical="true" />
+
+    <RelativeLayout
+        android:id="@+id/textArea"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/tile_height"
+        android:layout_toEndOf="@+id/listThingsIcon"
+        android:layout_toRightOf="@+id/listThingsIcon"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp">
+
+
+        <TextView
+            android:id="@+id/listProductName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/primary_text_size"
+            android:text="Main Title Text"
+            android:textColor="@color/colorTextPrimary" />
+
+        <TextView
+            android:id="@+id/listProductGoodnessValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="@string/goodnessvalue"
+            android:textColor="@color/colorTextSecondary"
+            android:layout_alignRight="@+id/listProductName"
+            android:paddingRight="@dimen/activity_horizontal_margin"/>
+
+
+        <TextView
+            android:id="@+id/listProductShortDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/secondary_text_size"
+            android:text="Description Text"
+            android:layout_below="@+id/listProductName"
+            android:textColor="@color/colorTextSecondary" />
+    </RelativeLayout>
+
+
+</RelativeLayout>

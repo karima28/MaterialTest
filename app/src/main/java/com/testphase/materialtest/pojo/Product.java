@@ -1,25 +1,27 @@
 package com.testphase.materialtest.pojo;
 
+import android.content.ComponentName;
+
 /**
  * Created by deea on 07/01/16.
  */
-public class Thing {
+public class Product implements Comparable<Product> {
     private long id;
     private String name;
     private String shortdescription;
     private String longdescription;
-    private double goodnessvalue;
+    private Integer goodnessvalue;
 
 
-    public Thing() {
+    public Product() {
 
     }
 
-    public Thing(long id,
-                 String name,
-                 String shortdescription,
-                 String longdescription,
-                 double goodnessvalue) {
+    public Product(long id,
+                   String name,
+                   String shortdescription,
+                   String longdescription,
+                   Integer goodnessvalue) {
         this.id = id;
         this.name = name;
         this.shortdescription = shortdescription;
@@ -27,10 +29,10 @@ public class Thing {
         this.goodnessvalue = goodnessvalue;
     }
 
-    public Thing(String name,
-                 String shortdescription,
-                 String longdescription,
-                 double goodnessvalue) {
+    public Product(String name,
+                   String shortdescription,
+                   String longdescription,
+                   Integer goodnessvalue) {
         this.name = name;
         this.shortdescription = shortdescription;
         this.longdescription = longdescription;
@@ -69,13 +71,21 @@ public class Thing {
         this.longdescription = longdescription;
     }
 
-    public double getGoodnessValue() {
+    public Integer getGoodnessValue() {
         return goodnessvalue;
     }
 
-    public void setGoodnessvalue(double goodnessvalue) {
+    public void setGoodnessValue(Integer goodnessvalue) {
         this.goodnessvalue = goodnessvalue;
     }
+
+    public void updateGoodnessValue(double factor){
+        int gValue = this.getGoodnessValue();
+        gValue = (gValue * factor < 100) ? (int) (gValue * factor) : 100;
+
+        this.setGoodnessValue(gValue);
+    }
+
 
 
     @Override
@@ -89,5 +99,12 @@ public class Thing {
     }
 
 
-
+    @Override
+    public int compareTo(Product another) {
+        if (this.getGoodnessValue() > another.getGoodnessValue())
+            return -1;
+        if (this.getGoodnessValue() < another.getGoodnessValue())
+            return 1;
+        return this.getName().compareTo(another.getName());
+    }
 }

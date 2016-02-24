@@ -19,8 +19,9 @@
         android:paddingTop="16dp"
         android:paddingBottom="16dp">
 
+
         <TextView
-            android:id="@+id/listThingsName"
+            android:id="@+id/listProductName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/primary_text_size"
@@ -28,12 +29,23 @@
             android:textColor="@color/colorTextPrimary" />
 
         <TextView
-            android:id="@+id/listThingsShortDescription"
+            android:id="@+id/listProductGoodnessValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="@string/goodnessvalue"
+            android:textColor="@color/colorTextSecondary"
+            android:layout_alignRight="@+id/listProductName"
+            android:paddingRight="@dimen/activity_horizontal_margin"/>
+
+
+        <TextView
+            android:id="@+id/listProductShortDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/secondary_text_size"
             android:text="Description Text"
-            android:layout_below="@+id/listThingsName"
+            android:layout_below="@+id/listProductName"
             android:textColor="@color/colorTextSecondary" />
     </RelativeLayout>
 

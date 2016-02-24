@@ -5,21 +5,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.testphase.materialtest.R;
-import com.testphase.materialtest.adapter.AdapterListThings;
-import com.testphase.materialtest.database.DbHelper;
 import com.testphase.materialtest.database.ProductDatabase;
 import com.testphase.materialtest.logging.L;
-import com.testphase.materialtest.pojo.Thing;
+import com.testphase.materialtest.pojo.Product;
 
 
 /**
@@ -36,9 +32,12 @@ public class ItemDisplayActivity extends AppCompatActivity implements View.OnCli
     TextView TextItemLongDescription;
     TextView TextItemGoodnessValue;
 
-    Button deleteButton;
+    Button likeButton;
+    Button dislikeButton;
+    Button neutralButton;
 
-    ProductDatabase mProductDatabase;
+    private Product product;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +47,8 @@ public class ItemDisplayActivity extends AppCompatActivity implements View.OnCli
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);*/
 
+        setContentView(R.layout.activity_display_product);
+
         Long itemid = 0L;
 
         Bundle extras = getIntent().getExtras();
@@ -55,11 +56,10 @@ public class ItemDisplayActivity extends AppCompatActivity implements View.OnCli
             itemid = extras.getLong("KEY_EXTRA_PRODUCT_ID");
         }
 
-        mProductDatabase = new ProductDatabase(getApplicationContext());
+        ProductDatabase mProductDatabase = new ProductDatabase(getApplicationContext());
 
-        Thing thing = mProductDatabase.getProduct(itemid);
+        this.product = mProductDatabase.getProduct(itemid);
 
-        setContentView(R.layout.activity_display_item);
 
         TextViewLongDescription = (TextView) findViewById(R.id.TextViewLongDescription);
         TextViewGoodnessValue = (TextView) findViewById(R.id.TextViewGoodnessValue);
@@ -69,13 +69,17 @@ public class ItemDisplayActivity extends AppCompatActivity implements View.OnCli
         TextItemGoodnessValue = (TextView) findViewById(R.id.TextItemGoodnessValue);
 
 
-        deleteButton = (Button) findViewById(R.id.deleteButton);
-        deleteButton.setOnClickListener(this);
+        likeButton = (Button) findViewById(R.id.likeButton);
+        likeButton.setOnClickListener(this);
+        dislikeButton = (Button) findViewById(R.id.dislikeButton);
+        dislikeButton.setOnClickListener(this);
+        neutralButton = (Button) findViewById(R.id.neutralButton);
+        neutralButton.setOnClickListener(this);
 
-        TextItemName.setText(thing.getName());
-        TextItemShortDescription.setText(thing.getShortDescription());
-        TextItemLongDescription.setText(thing.getLongdescription());
-        TextItemGoodnessValue.setText(Double.toString(thing.getGoodnessValue()));
+        TextItemName.setText(product.getName());
+        TextItemShortDescription.setText(product.getShortDescription());
+        TextItemLongDescription.setText(product.getLongdescription());
+        TextItemGoodnessValue.setText(Integer.toString(product.getGoodnessValue()));
 
     }
 
@@ -102,25 +106,58 @@ public class ItemDisplayActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onClick(View v) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(R.string.deleteItem)
-                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        ProductDatabase mProductDatabase = new ProductDatabase(getApplicationContext());
-                        mProductDatabase.deleteProduct(getIntent().getExtras().getLong("KEY_EXTRA_PRODUCT_ID"));
-                        Toast.makeText(getApplicationContext(), "Successfully deleted item ", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intent);
-                    }
-                })
-                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // User cancelled the dialog
-                    }
-                });
-        AlertDialog d = builder.create();
-        d.setTitle("Delete Item?");
-        d.show();
+        switch (v.getId()) {
+            case R.id.likeButton:
+
+                ProductDatabase mProductDatabase = new ProductDatabase(getApplicationContext());
+                mProductDatabase.addToFavorites(product);
+
+                product.updateGoodnessValue(1.6);
+                L.m(Integer.toString(product.getGoodnessValue()));
+
+                L.t(getApplicationContext(), "Product added to Favorites");
+
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                return;
+
+            case R.id.dislikeButton:
+                product.updateGoodnessValue(-1.4);
+                L.m(Integer.toString(product.getGoodnessValue()));
+                intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+
+                /*AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage(R.string.deleteItem)
+                        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                ProductDatabase mProductDatabase = new ProductDatabase(getApplicationContext());
+                                mProductDatabase.deleteProduct(getIntent().getExtras().getLong("KEY_EXTRA_PRODUCT_ID"));
+                                Toast.makeText(getApplicationContext(), "Successfully deleted item ", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intent);
+                            }
+                        })
+                        .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // User cancelled the dialog
+                            }
+                        });
+                AlertDialog d = builder.create();
+                d.setTitle("Delete Item?");
+                d.show();*/
+                return;
+
+            case R.id.neutralButton:
+                product.updateGoodnessValue(-1.2);
+                L.m(Integer.toString(product.getGoodnessValue()));
+                intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                return;
+        }
     }
 }

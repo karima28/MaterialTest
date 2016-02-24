@@ -2,14 +2,6 @@ package com.testphase.materialtest.services;
 
 import android.os.AsyncTask;
 
-import com.testphase.materialtest.MyApplication;
-import com.testphase.materialtest.database.ProductDatabase;
-import com.testphase.materialtest.logging.L;
-import com.testphase.materialtest.pojo.Thing;
-
-import java.util.ArrayList;
-
-import me.tatarka.support.job.JobInfo;
 import me.tatarka.support.job.JobParameters;
 import me.tatarka.support.job.JobService;
 

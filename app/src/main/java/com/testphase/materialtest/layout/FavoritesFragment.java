@@ -16,12 +16,10 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.testphase.materialtest.R;
-import com.testphase.materialtest.activity.AddActivity;
 import com.testphase.materialtest.activity.ItemDisplayActivity;
 import com.testphase.materialtest.activity.MainActivity;
-import com.testphase.materialtest.adapter.AdapterProductList;
+import com.testphase.materialtest.adapter.AdapterFavoriteList;
 import com.testphase.materialtest.database.ProductDatabase;
-import com.testphase.materialtest.logging.L;
 import com.testphase.materialtest.pojo.Product;
 
 import java.util.ArrayList;
@@ -31,7 +29,7 @@ import java.util.Collections;
 /**
  * Created by deea on 15/01/16.
  */
-public class PrimaryListFragment extends Fragment {
+public class FavoritesFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -39,20 +37,20 @@ public class PrimaryListFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private ArrayList<Product> listProducts = new ArrayList<>();
-    private RecyclerView listPrimaryProducts;
-    private AdapterProductList adapterProductList;
+    private ArrayList<Product> listFavorites = new ArrayList<>();
+    private RecyclerView listFavoriteProducts;
+    private AdapterFavoriteList adapterFavoriteList;
 
     ProductDatabase mProductDatabase;
 
 
-    public PrimaryListFragment() {
+    public FavoritesFragment() {
         // Required empty public constructor
     }
 
 
-    public static PrimaryListFragment newInstance() {
-        PrimaryListFragment fragment = new PrimaryListFragment();
+    public static FavoritesFragment newInstance() {
+        FavoritesFragment fragment = new FavoritesFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -74,7 +72,7 @@ public class PrimaryListFragment extends Fragment {
 
         mProductDatabase = new ProductDatabase(getContext());
 
-        return mProductDatabase.getAllProducts();
+        return mProductDatabase.getAllFavorites();
     }
 
 
@@ -84,33 +82,26 @@ public class PrimaryListFragment extends Fragment {
                              Bundle savedInstanceState) {
 
 
-        View view = inflater.inflate(R.layout.fragment_primary_list, container, false);
-        listPrimaryProducts = (RecyclerView) view.findViewById(R.id.listPrimaryProducts);
-        listPrimaryProducts.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapterProductList = new AdapterProductList(getActivity());
-        listPrimaryProducts.setAdapter(adapterProductList);
+        View view = inflater.inflate(R.layout.fragment_favorites_list, container, false);
+        listFavoriteProducts = (RecyclerView) view.findViewById(R.id.listFavoriteProducts);
+        listFavoriteProducts.setLayoutManager(new LinearLayoutManager(getActivity()));
+        adapterFavoriteList = new AdapterFavoriteList(getActivity());
+        listFavoriteProducts.setAdapter(adapterFavoriteList);
 
-        listProducts = getResults();
-        Collections.sort(listProducts);
-        adapterProductList.setListProducts(listProducts);
+        listFavorites = getResults();
+        Collections.sort(listFavorites);
+        adapterFavoriteList.setListProducts(listFavorites);
 
-        listPrimaryProducts.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), listPrimaryProducts, new PrimaryListFragment.ClickListener() {
+        listFavoriteProducts.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), listFavoriteProducts, new FavoritesFragment.ClickListener() {
             @Override
             public void onClick(View view, int position) {
 
-                Product product = listProducts.get(position);
+                Product product = listFavorites.get(position);
 
                 long itemID = product.getId();
 
                 Intent intent = new Intent(getActivity(), ItemDisplayActivity.class);
                 intent.putExtra("KEY_EXTRA_PRODUCT_ID", itemID);
-
-                product.updateGoodnessValue(1.4);
-
-                mProductDatabase.updateProductGValue(itemID, product.getGoodnessValue());
-
-                L.m("New Goodness Value: " + Integer.toString(product.getGoodnessValue()));
-
                 startActivity(intent);
             }
 
@@ -121,7 +112,6 @@ public class PrimaryListFragment extends Fragment {
                 builder.setMessage(R.string.deleteItem)
                         .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                mProductDatabase.deleteProduct(listProducts.get(position).getId());
                                 Toast.makeText(getContext(), "Successfully deleted item ", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(getContext(), MainActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -138,17 +128,6 @@ public class PrimaryListFragment extends Fragment {
                 d.show();
             }
         }));
-
-        android.support.design.widget.FloatingActionButton floatingActionButton = (android.support.design.widget.FloatingActionButton) view.findViewById(R.id.fab);
-
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), AddActivity.class);
-                startActivity(intent);
-            }
-
-        });
 
         return view;
     }

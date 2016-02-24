@@ -1,7 +1,6 @@
 package com.testphase.materialtest.activity;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -9,16 +8,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
 import com.testphase.materialtest.R;
 import com.testphase.materialtest.database.ProductDatabase;
-import com.testphase.materialtest.layout.PrimaryListFragment;
 import com.testphase.materialtest.logging.L;
-import com.testphase.materialtest.pojo.Thing;
-
-import java.util.ArrayList;
+import com.testphase.materialtest.pojo.Product;
 
 
 /**
@@ -33,20 +30,26 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     EditText EditTextName;
     EditText EditTextShortDescription;
     EditText EditTextLongDescription;
-    EditText EditTextGoodnessValue;
+
+    TextView TextViewDefaultGoodnessValue;
 
     Button saveButton;
+
+    //Default Goodness Value of a new product added
+    public static final int DEFAULTGVALUE = 50;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_sub);
+        setContentView(R.layout.activity_add_product);
 
         EditTextName = (EditText) findViewById(R.id.EditTextName);
         EditTextShortDescription = (EditText) findViewById(R.id.EditTextShortDescription);
         EditTextLongDescription = (EditText) findViewById(R.id.EditTextLongDescription);
-        EditTextGoodnessValue = (EditText) findViewById(R.id.EditTextGoodnessValue);
+        //EditTextGoodnessValue = (EditText) findViewById(R.id.EditTextGoodnessValue);
+        TextViewDefaultGoodnessValue = (TextView) findViewById(R.id.TextViewDefaultGoodnessValue);
 
         saveButton = (Button) findViewById(R.id.saveButton);
         saveButton.setOnClickListener(this);
@@ -62,16 +65,24 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
             String name = EditTextName.getText().toString();
             String sdesc = EditTextShortDescription.getText().toString();
             String ldesc = EditTextLongDescription.getText().toString();
-            Integer gvalue = Integer.parseInt(EditTextGoodnessValue.getText().toString());
 
-            Thing thing = new Thing(name, sdesc, ldesc, gvalue);
+            //Default Goodness Value is set on adding a new product
+            Integer gvalue = DEFAULTGVALUE;
+
+            Product product = new Product(name, sdesc, ldesc, gvalue);
 
             mProductDatabase = new ProductDatabase(this);
-            mProductDatabase.insertProduct(thing);
+            mProductDatabase.insertProduct(product);
+
 
             L.T(getApplicationContext(), "Item " + name + " added");
 
-
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        }
+        else
+        {
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);

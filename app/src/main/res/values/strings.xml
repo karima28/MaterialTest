@@ -1,7 +1,9 @@
 <resources>
     <string name="app_name">MaterialTest</string>
     <string name="title_activity_main">Treasure Hunter</string>
+    <string name="title_activity_main2">Treasure Hunter 2</string>
     <string name="title_activity_editordelete">Edit or Delete Item</string>
+    <string name="title_activity_favorites">Favorites</string>
     <string name="hello_world">HelloWorld</string>
     <string name="add">Add Item</string>
     <string name="title_activity_add">Add Item</string>
@@ -19,13 +21,19 @@
     <string name="shortdescription">Short Description</string>
     <string name="longdescription">Long Description</string>
     <string name="goodnessvalue">Goodness Value</string>
+    <string name="default_goodness_value">100</string>
 
     <string name="save">Save</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
 
+    <string name="like">Like</string>
+    <string name="dislike">Dislike</string>
+    <string name="neutral">Not Decided</string>
+
     <string name="deleteItem">Are you sure you want to delete this item?</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_display_item">Display Item</string>
+    <string name="cancel">Cancel</string>
 </resources>

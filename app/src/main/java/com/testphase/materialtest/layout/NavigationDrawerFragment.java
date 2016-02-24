@@ -2,6 +2,7 @@ package com.testphase.materialtest.layout;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,7 +18,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.testphase.materialtest.activity.FavoritesActivity;
+import com.testphase.materialtest.activity.MainActivity;
 import com.testphase.materialtest.adapter.InfoAdapter;
+import com.testphase.materialtest.logging.L;
 import com.testphase.materialtest.pojo.Information;
 import com.testphase.materialtest.R;
 
@@ -70,7 +74,17 @@ public class NavigationDrawerFragment extends Fragment {
             @Override
             public void onClick(View view, int position) {
 
-                Toast.makeText(getActivity(), "onClick at " + position, Toast.LENGTH_SHORT).show();
+
+                if(position == 2){
+                    Intent intent = new Intent(getContext(), FavoritesActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                }
+                else
+                    Toast.makeText(getActivity(), "onClick at " + position, Toast.LENGTH_SHORT).show();
+
+
+
             }
 
             @Override
