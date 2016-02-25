@@ -12,7 +12,7 @@ import com.testphase.materialtest.layout.FavoritesFragment;
 import com.testphase.materialtest.layout.NavigationDrawerFragment;
 
 /**
- * Created by deea on 11/02/16.
+ * The FavoritesActivity class is the activity where the Favorites List is displayed
  */
 public class FavoritesActivity extends AppCompatActivity{
 

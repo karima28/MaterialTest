@@ -12,7 +12,7 @@ import java.nio.DoubleBuffer;
 import java.util.ArrayList;
 
 /**
- * Created by deea on 17/01/16.
+ * The ProductDatabase Class contains all the database functions of reading, adding, updating and deleting entries from the database
  */
 public class ProductDatabase {
 
@@ -32,6 +32,10 @@ public class ProductDatabase {
     }
 
 
+    /**
+     * To insert a new product into the primary Products table
+     * @param product object to be added to the database
+     */
     public void insertProduct(Product product){
 
         String sql = "INSERT INTO " + (DbHelper.ITEM_TABLE_NAME) + " (" +
@@ -57,6 +61,11 @@ public class ProductDatabase {
     }
 
 
+    /**
+     * Updates the Goodness Value of a product in the database
+     * @param id        the id of the product from Products table
+     * @param newGValue the new Goodness Value
+     */
     public void updateProductGValue(long id, Integer newGValue){
 
         String sql = "UPDATE " + DbHelper.ITEM_TABLE_NAME +
@@ -67,7 +76,10 @@ public class ProductDatabase {
 
     }
 
-
+    /**
+     * Retrieves and returns all the entries of the Products table
+     * @return      the arraylist of all products in the Products table
+     */
     public ArrayList<Product> getAllProducts() {
 
         ArrayList<Product> listProducts = new ArrayList<>();
@@ -91,6 +103,11 @@ public class ProductDatabase {
         return listProducts;
     }
 
+    /**
+     * Retrieves and returns the product from the Product table with the id specified
+     * @param id    the id of the product from Products table
+     * @return      the product with the id specified
+     */
     public Product getProduct(long id) {
 
         Cursor cursor = mDatabase.query(DbHelper.ITEM_TABLE_NAME, columns, DbHelper.ITEM_COLUMN_ID + " = " + id, null, null, null, null);
@@ -111,6 +128,10 @@ public class ProductDatabase {
     }
 
 
+    /**
+     * Deletes the product from the database with the id specified
+     * @param id
+     */
     public void deleteProduct(long id) {
 
         mDatabase.delete(DbHelper.ITEM_TABLE_NAME, DbHelper.ITEM_COLUMN_ID +"=?", new String[] {Long.toString(id)});
@@ -118,6 +139,10 @@ public class ProductDatabase {
 
     }
 
+    /**
+     * Adds the product to the Favorites table
+     * @param product
+     */
     public void addToFavorites(Product product) {
 
         L.m("Created new favorite");
@@ -144,6 +169,10 @@ public class ProductDatabase {
         mDatabase.endTransaction();
     }
 
+    /**
+     * Retrieves and returns all the entries of the Favorites table
+     * @return      the arraylist of all products in the Favorites table
+     */
     public ArrayList<Product> getAllFavorites() {
 
         ArrayList<Product> listFavorites = new ArrayList<>();

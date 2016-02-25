@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.testphase.materialtest.logging.L;
 
 /**
- * Created by deea on 20/01/16.
+ * The DBHelper Class is the database helper class and contains the main database create and upgrade statements
  */
 public class DbHelper extends SQLiteOpenHelper {
 

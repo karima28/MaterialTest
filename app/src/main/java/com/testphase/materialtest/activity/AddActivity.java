@@ -19,7 +19,7 @@ import com.testphase.materialtest.pojo.Product;
 
 
 /**
- * Created by deea on 15/01/16.
+ * The AddActivity Class is the activity where a new product can be added to the database
  */
 public class AddActivity extends AppCompatActivity implements View.OnClickListener{
 
