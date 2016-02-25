@@ -30,7 +30,6 @@ import java.util.List;
 
 /**
  * NavigationDrawerFragment is the fragment used to display the recyclerview list of options in the navigation drawer and handle the clicks on the options
- ** ...
  */
 public class NavigationDrawerFragment extends Fragment {
 
