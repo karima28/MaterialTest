@@ -29,7 +29,7 @@ import java.util.Collections;
 
 
 /**
- * Created by deea on 15/01/16.
+ * PrimaryListFragment is the fragment used to display the products recyclerview list and handle the clicks on the items
  */
 public class PrimaryListFragment extends Fragment {
 
@@ -105,7 +105,7 @@ public class PrimaryListFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), ItemDisplayActivity.class);
                 intent.putExtra("KEY_EXTRA_PRODUCT_ID", itemID);
 
-                product.updateGoodnessValue(1.4);
+                product.updateGoodnessValue(ItemDisplayActivity.GValueLikeAction);
 
                 mProductDatabase.updateProductGValue(itemID, product.getGoodnessValue());
 

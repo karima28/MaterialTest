@@ -14,7 +14,7 @@ import com.testphase.materialtest.pojo.Product;
 import java.util.ArrayList;
 
 /**
- * Created by deea on 08/01/16.
+ * AdapterProductList is the recyclerview adapter that is used to populate the main products list
  */
 public class AdapterProductList extends RecyclerView.Adapter<AdapterProductList.ViewHolderListProducts>{
 

@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A simple {@link Fragment} subclass.
+ * NavigationDrawerFragment is the fragment used to display the recyclerview list of options in the navigation drawer and handle the clicks on the options
  */
 public class NavigationDrawerFragment extends Fragment {
 
@@ -74,7 +74,6 @@ public class NavigationDrawerFragment extends Fragment {
             @Override
             public void onClick(View view, int position) {
 
-
                 if(position == 2){
                     Intent intent = new Intent(getContext(), FavoritesActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -82,8 +81,6 @@ public class NavigationDrawerFragment extends Fragment {
                 }
                 else
                     Toast.makeText(getActivity(), "onClick at " + position, Toast.LENGTH_SHORT).show();
-
-
 
             }
 

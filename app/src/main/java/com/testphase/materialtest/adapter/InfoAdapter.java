@@ -15,7 +15,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Created by deea on 06/01/16.
+ * InfoAdapter is the recyclerview adapter that is used to populate the navigation drawer fragment
  */
 public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.MyViewholder> {
 

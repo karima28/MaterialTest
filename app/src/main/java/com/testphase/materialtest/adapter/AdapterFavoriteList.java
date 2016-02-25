@@ -13,7 +13,7 @@ import com.testphase.materialtest.pojo.Product;
 import java.util.ArrayList;
 
 /**
- * Created by deea on 08/01/16.
+ * AdapterFavoriteList is the recyclerview adapter that is used to populate the favorites list
  */
 public class AdapterFavoriteList extends RecyclerView.Adapter<AdapterFavoriteList.ViewHolderListFavorites>{
 

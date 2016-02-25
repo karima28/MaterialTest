@@ -27,7 +27,7 @@ import java.util.Collections;
 
 
 /**
- * Created by deea on 15/01/16.
+ * FavoritesFragment is the fragment used to display the favorites recyclerview list and handle the clicks on the items
  */
 public class FavoritesFragment extends Fragment {
 

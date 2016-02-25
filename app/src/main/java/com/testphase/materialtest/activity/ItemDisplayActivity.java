@@ -19,7 +19,7 @@ import com.testphase.materialtest.pojo.Product;
 
 
 /**
- * Created by deea on 18/01/16.
+ * The ItemDisplayActivity is the activity that displays the detailed view of the Item that is selected
  */
 public class ItemDisplayActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -37,6 +37,10 @@ public class ItemDisplayActivity extends AppCompatActivity implements View.OnCli
     Button neutralButton;
 
     private Product product;
+
+    public static final double GValueLikeAction = 1.6;
+    public static final double GValueDislikeAction = -1.4;
+    public static final double GValueNeutralAction = -1.2;
 
 
     @Override
@@ -59,7 +63,6 @@ public class ItemDisplayActivity extends AppCompatActivity implements View.OnCli
         ProductDatabase mProductDatabase = new ProductDatabase(getApplicationContext());
 
         this.product = mProductDatabase.getProduct(itemid);
-
 
         TextViewLongDescription = (TextView) findViewById(R.id.TextViewLongDescription);
         TextViewGoodnessValue = (TextView) findViewById(R.id.TextViewGoodnessValue);
@@ -103,7 +106,6 @@ public class ItemDisplayActivity extends AppCompatActivity implements View.OnCli
         return super.onOptionsItemSelected(item);
     }
 
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -112,19 +114,19 @@ public class ItemDisplayActivity extends AppCompatActivity implements View.OnCli
                 ProductDatabase mProductDatabase = new ProductDatabase(getApplicationContext());
                 mProductDatabase.addToFavorites(product);
 
-                product.updateGoodnessValue(1.6);
-                L.m(Integer.toString(product.getGoodnessValue()));
+                product.updateGoodnessValue(GValueLikeAction);
+                //L.m(Integer.toString(product.getGoodnessValue()));
 
                 L.t(getApplicationContext(), "Product added to Favorites");
 
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
-                return;
+            return;
 
             case R.id.dislikeButton:
-                product.updateGoodnessValue(-1.4);
-                L.m(Integer.toString(product.getGoodnessValue()));
+                product.updateGoodnessValue(GValueDislikeAction);
+                //L.m(Integer.toString(product.getGoodnessValue()));
                 intent = new Intent(getApplicationContext(), MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
@@ -149,15 +151,16 @@ public class ItemDisplayActivity extends AppCompatActivity implements View.OnCli
                 AlertDialog d = builder.create();
                 d.setTitle("Delete Item?");
                 d.show();*/
-                return;
+            return;
 
             case R.id.neutralButton:
-                product.updateGoodnessValue(-1.2);
-                L.m(Integer.toString(product.getGoodnessValue()));
+                product.updateGoodnessValue(GValueNeutralAction);
+                //L.m(Integer.toString(product.getGoodnessValue()));
                 intent = new Intent(getApplicationContext(), MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
-                return;
+            return;
+
         }
     }
 }
