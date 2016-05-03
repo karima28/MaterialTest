@@ -2,7 +2,6 @@ package com.testphase.materialtest.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,7 +9,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.testphase.materialtest.R;
 import com.testphase.materialtest.database.ProductDatabase;
@@ -21,11 +19,9 @@ import com.testphase.materialtest.pojo.Product;
 /**
  * The AddActivity Class is the activity where a new product can be added to the database
  */
-public class AddActivity extends AppCompatActivity implements View.OnClickListener{
+public class AddActivity extends MainActivity implements View.OnClickListener {
 
     ProductDatabase mProductDatabase;
-
-    private Toolbar toolbar;
 
     EditText EditTextName;
     EditText EditTextShortDescription;
@@ -36,7 +32,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     Button saveButton;
 
     //Default Goodness Value of a new product added
-    public static final int DEFAULTGVALUE = 50;
+    public static final int DEFAULTGVALUE = 100;
 
 
     @Override
@@ -45,15 +41,15 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
 
         setContentView(R.layout.activity_add_product);
 
+        //Allows entering a new name, short description and long description
         EditTextName = (EditText) findViewById(R.id.EditTextName);
         EditTextShortDescription = (EditText) findViewById(R.id.EditTextShortDescription);
         EditTextLongDescription = (EditText) findViewById(R.id.EditTextLongDescription);
-        //EditTextGoodnessValue = (EditText) findViewById(R.id.EditTextGoodnessValue);
+        //Displays the default goodness value
         TextViewDefaultGoodnessValue = (TextView) findViewById(R.id.TextViewDefaultGoodnessValue);
 
         saveButton = (Button) findViewById(R.id.saveButton);
         saveButton.setOnClickListener(this);
-
 
     }
 
@@ -61,7 +57,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     public void onClick(View view) {
         int id = view.getId();
 
-        if(id == R.id.saveButton) {
+        if (id == R.id.saveButton) {
             String name = EditTextName.getText().toString();
             String sdesc = EditTextShortDescription.getText().toString();
             String ldesc = EditTextLongDescription.getText().toString();
@@ -69,10 +65,12 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
             //Default Goodness Value is set on adding a new product
             Integer gvalue = DEFAULTGVALUE;
 
+            //New product object created with specified values
             Product product = new Product(name, sdesc, ldesc, gvalue);
 
+            //New product added to the Product Database
             mProductDatabase = new ProductDatabase(this);
-            mProductDatabase.insertProduct(product);
+            mProductDatabase.insertProduct(product,"primary");
 
 
             L.T(getApplicationContext(), "Item " + name + " added");
@@ -81,8 +79,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }
-        else
-        {
+        else {
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
@@ -90,8 +87,8 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.menu_sub, menu);
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
@@ -107,8 +104,4 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         return super.onOptionsItemSelected(item);
     }
 
-
-
 }
-
-

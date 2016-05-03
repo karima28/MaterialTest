@@ -20,16 +20,23 @@ public class AdapterFavoriteList extends RecyclerView.Adapter<AdapterFavoriteLis
     private LayoutInflater mInflater;
     private ArrayList<Product> mListFavorites = new ArrayList<>();
 
-
     public AdapterFavoriteList(Context context){
         mInflater = LayoutInflater.from(context);
     }
 
-    public void setListProducts(ArrayList<Product> listFavorites){
+    public void setListFavorites(ArrayList<Product> listFavorites){
         this.mListFavorites = listFavorites;
         notifyDataSetChanged();
     }
 
+    /**
+     * Called when RecyclerView needs a new RecyclerView.ViewHolder of the given type to represent
+     * an item
+     * @param parent The ViewGroup into which the new View will be added after it is bound to an
+     *               adapter position
+     * @param viewType The view type of the new View
+     * @return The new corresponding viewholder
+     */
     @Override
     public ViewHolderListFavorites onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = mInflater.inflate(R.layout.custom_list_favorites, parent, false);
@@ -37,6 +44,13 @@ public class AdapterFavoriteList extends RecyclerView.Adapter<AdapterFavoriteLis
         return viewHolder;
     }
 
+    /**
+     * Called by RecyclerView to display the data at the specified position i.e. to update the
+     * row
+     * @param holder The ViewHolder which should be updated to represent the contents of the item at
+     *               the given position in the data set
+     * @param position The position of the item within the adapter's data set
+     */
     @Override
     public void onBindViewHolder(ViewHolderListFavorites holder, int position) {
         Product currentProduct  = mListFavorites.get(position);
@@ -45,18 +59,25 @@ public class AdapterFavoriteList extends RecyclerView.Adapter<AdapterFavoriteLis
         holder.listProductGoodnessValue.setText(Integer.toString(currentProduct.getGoodnessValue()));
     }
 
+    /**
+     * To get the number of items in the Favorites list
+     * @return the total number of items in the Favorites list
+     */
     @Override
     public int getItemCount() {
         return mListFavorites.size();
     }
 
+    /**
+     * Describes an item view from the Favorites list and about its place within the
+     * RecyclerView
+     */
     static class ViewHolderListFavorites extends RecyclerView.ViewHolder{
 
         //private ImageView listProductsIcon;
         TextView listProductName;
         TextView listProductShortDescription;
         TextView listProductGoodnessValue;
-
 
         public ViewHolderListFavorites(View itemView) {
             super(itemView);

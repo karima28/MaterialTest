@@ -1,11 +1,9 @@
 package com.testphase.materialtest.activity;
 
-import android.content.ComponentName;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,36 +12,23 @@ import android.widget.Toast;
 import com.testphase.materialtest.R;
 import com.testphase.materialtest.layout.NavigationDrawerFragment;
 import com.testphase.materialtest.layout.PrimaryListFragment;
-import com.testphase.materialtest.services.MyService;
-
-import me.tatarka.support.job.JobInfo;
-import me.tatarka.support.job.JobScheduler;
 
 
 public class MainActivity extends AppCompatActivity {
 
-    //private static final int JOB_ID = 100;
-    private Toolbar toolbar;
-    //private RecyclerView mRecyclerView;
-    //private RecyclerView.LayoutManager mLayoutManager;
-    //private RecyclerView.Adapter mAdapter;
-
-    //private JobScheduler mJobScheduler;
-
+    protected Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_appbar);
 
-        //Toolbar
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-        //Background Processes
-        /*mJobScheduler = JobScheduler.getInstance(this);
-        constructJob();*/
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayShowHomeEnabled(true);
+        }
 
         //Navigation Drawer
         NavigationDrawerFragment drawerFragment = (NavigationDrawerFragment)
@@ -55,8 +40,6 @@ public class MainActivity extends AppCompatActivity {
         primaryListFragment.newInstance();
 
     }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -74,5 +57,4 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
 }

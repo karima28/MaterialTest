@@ -18,12 +18,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.testphase.materialtest.activity.FavoritesActivity;
-import com.testphase.materialtest.activity.MainActivity;
-import com.testphase.materialtest.adapter.InfoAdapter;
-import com.testphase.materialtest.logging.L;
-import com.testphase.materialtest.pojo.Information;
 import com.testphase.materialtest.R;
+import com.testphase.materialtest.activity.FavoritesActivity;
+import com.testphase.materialtest.adapter.InfoAdapter;
+import com.testphase.materialtest.pojo.Information;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,7 +92,10 @@ public class NavigationDrawerFragment extends Fragment {
 
     }
 
-    //Method to obtain the static data for the navigation drawer list
+    /**
+     * To obtain the static data for the navigation drawer list
+     * @return the list of items in the navigation drawer list
+     */
     public static List<Information> getData(){
         List<Information> data = new ArrayList<>();
         int[] icons = {R.drawable.ic_account_circle_black_24dp, R.drawable.ic_description_black_24dp, R.drawable.ic_favorite_black_24dp, R.drawable.ic_shopping_cart_black_24dp};
@@ -109,7 +110,12 @@ public class NavigationDrawerFragment extends Fragment {
         return data;
     }
 
-
+    /**
+     * Sets up the view of the navigation drawer and the responses to opening or closing the drawer
+     * @param fragmentId the id of the fragment
+     * @param drawerLayout the layout of the navigation drawer
+     * @param toolbar the app toolbar
+     */
     public void setUp(int fragmentId, DrawerLayout drawerLayout, final Toolbar toolbar){
 
         containerView = getActivity().findViewById(fragmentId);
@@ -133,6 +139,11 @@ public class NavigationDrawerFragment extends Fragment {
                 getActivity().invalidateOptionsMenu();
             }
 
+            /**
+             * Gives the fading effect to the toolbar when the drawer is sliding open
+             * @param drawerView
+             * @param slideOffset
+             */
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset){
                 if(slideOffset < 0.6){
@@ -167,6 +178,10 @@ public class NavigationDrawerFragment extends Fragment {
         return sharedPreferences.getString(preferenceName, defaultValue);
     }
 
+    /**
+     *  Allows the application to intercept touch events in progress at the view hierarchy level of
+     *  the RecyclerView before those touch events are considered for RecyclerView's own scrolling behavior.
+     */
     class RecyclerTouchListener implements RecyclerView.OnItemTouchListener{
 
         private GestureDetector gestureDetector;
@@ -216,6 +231,9 @@ public class NavigationDrawerFragment extends Fragment {
         }
     }
 
+    /**
+     * Listens for short clicks and long clicks
+     */
     public static interface ClickListener{
         public void onClick(View view, int position);
         public void onLongClick(View view, int position);

@@ -1,9 +1,7 @@
 package com.testphase.materialtest.pojo;
 
-import android.content.ComponentName;
-
 /**
- * Created by deea on 07/01/16.
+ * Product class that contains all the product getters, setters and other required methods
  */
 public class Product implements Comparable<Product> {
     private long id;
@@ -86,8 +84,6 @@ public class Product implements Comparable<Product> {
         this.setGoodnessValue(gValue);
     }
 
-
-
     @Override
     public String toString() {
         return "\nID: " + id +
@@ -97,7 +93,6 @@ public class Product implements Comparable<Product> {
                 "\nGoodnessvalue " + goodnessvalue +
                 "\n";
     }
-
 
     @Override
     public int compareTo(Product another) {

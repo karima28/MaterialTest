@@ -75,6 +75,4 @@ public class DbHelper extends SQLiteOpenHelper {
             L.t(mContext, exception + "");
         }
     }
-
-
 }

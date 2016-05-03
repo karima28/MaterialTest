@@ -1,7 +1,7 @@
 package com.testphase.materialtest.pojo;
 
 /**
- * Created by deea on 06/01/16.
+ * Informationa class for the properties of an entry in the navigation drawer
  */
 public class Information {
     public int iconID;

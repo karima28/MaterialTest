@@ -2,11 +2,10 @@ package com.testphase.materialtest.activity;
 
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+
 import com.testphase.materialtest.R;
 import com.testphase.materialtest.layout.FavoritesFragment;
 import com.testphase.materialtest.layout.NavigationDrawerFragment;
@@ -14,20 +13,12 @@ import com.testphase.materialtest.layout.NavigationDrawerFragment;
 /**
  * The FavoritesActivity class is the activity where the Favorites List is displayed
  */
-public class FavoritesActivity extends AppCompatActivity{
-
-    private Toolbar toolbar;
-
+public class FavoritesActivity extends MainActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorites);
-
-        //Toolbar
-        toolbar = (Toolbar) findViewById(R.id.app_bar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         //Navigation Drawer
         NavigationDrawerFragment drawerFragment = (NavigationDrawerFragment)
@@ -40,11 +31,9 @@ public class FavoritesActivity extends AppCompatActivity{
 
     }
 
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_sub, menu);
         return true;
     }
 

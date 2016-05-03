@@ -1,16 +1,12 @@
 package com.testphase.materialtest.activity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.testphase.materialtest.R;
 import com.testphase.materialtest.database.ProductDatabase;
@@ -21,9 +17,7 @@ import com.testphase.materialtest.pojo.Product;
 /**
  * The ItemDisplayActivity is the activity that displays the detailed view of the Item that is selected
  */
-public class ItemDisplayActivity extends AppCompatActivity implements View.OnClickListener{
-
-    //private Toolbar toolbar;
+public class ItemDisplayActivity extends MainActivity implements View.OnClickListener {
 
     TextView TextViewLongDescription;
     TextView TextViewGoodnessValue;
@@ -38,18 +32,15 @@ public class ItemDisplayActivity extends AppCompatActivity implements View.OnCli
 
     private Product product;
 
+    //The level of impact of each action (like, dislike or no reaction) on the goodnessvalue
     public static final double GValueLikeAction = 1.6;
-    public static final double GValueDislikeAction = -1.4;
-    public static final double GValueNeutralAction = -1.2;
+    public static final double GValueDislikeAction = 0.6;
+    public static final double GValueNeutralAction = 0.9;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        /*toolbar = (Toolbar) findViewById(R.id.app_bar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);*/
 
         setContentView(R.layout.activity_display_product);
 
@@ -106,61 +97,39 @@ public class ItemDisplayActivity extends AppCompatActivity implements View.OnCli
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * The corresponding responses on clicking one of the buttons
+     * @param v the view
+     */
     @Override
     public void onClick(View v) {
+        ProductDatabase mProductDatabase = new ProductDatabase(getApplicationContext());
+
         switch (v.getId()) {
             case R.id.likeButton:
-
-                ProductDatabase mProductDatabase = new ProductDatabase(getApplicationContext());
-                mProductDatabase.addToFavorites(product);
-
+                mProductDatabase.insertProduct(product,"favorites");
+                L.m("TEST LIKE: \n" + Integer.toString(product.getGoodnessValue()));
                 product.updateGoodnessValue(GValueLikeAction);
+                L.m("TEST DISLIKE: \n" + Integer.toString(product.getGoodnessValue()));
                 //L.m(Integer.toString(product.getGoodnessValue()));
 
                 L.t(getApplicationContext(), "Product added to Favorites");
-
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-            return;
+            break;
 
             case R.id.dislikeButton:
                 product.updateGoodnessValue(GValueDislikeAction);
                 //L.m(Integer.toString(product.getGoodnessValue()));
-                intent = new Intent(getApplicationContext(), MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-
-                /*AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setMessage(R.string.deleteItem)
-                        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                ProductDatabase mProductDatabase = new ProductDatabase(getApplicationContext());
-                                mProductDatabase.deleteProduct(getIntent().getExtras().getLong("KEY_EXTRA_PRODUCT_ID"));
-                                Toast.makeText(getApplicationContext(), "Successfully deleted item ", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(intent);
-                            }
-                        })
-                        .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                // User cancelled the dialog
-                            }
-                        });
-                AlertDialog d = builder.create();
-                d.setTitle("Delete Item?");
-                d.show();*/
-            return;
+            break;
 
             case R.id.neutralButton:
                 product.updateGoodnessValue(GValueNeutralAction);
                 //L.m(Integer.toString(product.getGoodnessValue()));
-                intent = new Intent(getApplicationContext(), MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-            return;
-
+            break;
         }
+
+        mProductDatabase.updateProductGValue(product.getId(),product.getGoodnessValue());
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 }

@@ -72,7 +72,7 @@ public class FavoritesFragment extends Fragment {
 
         mProductDatabase = new ProductDatabase(getContext());
 
-        return mProductDatabase.getAllFavorites();
+        return mProductDatabase.getAllProducts("favorites");
     }
 
 
@@ -90,9 +90,10 @@ public class FavoritesFragment extends Fragment {
 
         listFavorites = getResults();
         Collections.sort(listFavorites);
-        adapterFavoriteList.setListProducts(listFavorites);
+        adapterFavoriteList.setListFavorites(listFavorites);
 
         listFavoriteProducts.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), listFavoriteProducts, new FavoritesFragment.ClickListener() {
+
             @Override
             public void onClick(View view, int position) {
 
@@ -100,6 +101,7 @@ public class FavoritesFragment extends Fragment {
 
                 long itemID = product.getId();
 
+                //Opens up the Item Display
                 Intent intent = new Intent(getActivity(), ItemDisplayActivity.class);
                 intent.putExtra("KEY_EXTRA_PRODUCT_ID", itemID);
                 startActivity(intent);
@@ -108,10 +110,12 @@ public class FavoritesFragment extends Fragment {
             @Override
             public void onLongClick(View view, final int position) {
 
+                //Alert Dialog on deleting the item
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder.setMessage(R.string.deleteItem)
                         .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
+                                mProductDatabase.deleteProduct(listFavorites.get(position).getId());
                                 Toast.makeText(getContext(), "Successfully deleted item ", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(getContext(), MainActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -132,6 +136,10 @@ public class FavoritesFragment extends Fragment {
         return view;
     }
 
+    /**
+     *  Allows the application to intercept touch events in progress at the view hierarchy level of
+     *  the RecyclerView before those touch events are considered for RecyclerView's own scrolling behavior.
+     */
     class RecyclerTouchListener implements RecyclerView.OnItemTouchListener{
 
         private GestureDetector gestureDetector;
@@ -181,6 +189,9 @@ public class FavoritesFragment extends Fragment {
         }
     }
 
+    /**
+     * Listens for short clicks and long clicks
+     */
     public static interface ClickListener{
         public void onClick(View view, int position);
         public void onLongClick(View view, int position);

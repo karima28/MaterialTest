@@ -5,12 +5,12 @@ import android.util.Log;
 import android.widget.Toast;
 
 /**
- * Created by deea on 07/01/16.
+ * Helper class used for logging and debugging
  */
 public class L {
 
     public static void m(String message) {
-        Log.d("YO", "" + message);
+        Log.d("DEBUG: ", "" + message);
     }
 
     public static void t(Context context, String message) {

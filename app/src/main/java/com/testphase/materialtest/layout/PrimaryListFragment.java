@@ -69,20 +69,16 @@ public class PrimaryListFragment extends Fragment {
 
     }
 
-
     private ArrayList<Product> getResults() {
 
         mProductDatabase = new ProductDatabase(getContext());
 
-        return mProductDatabase.getAllProducts();
+        return mProductDatabase.getAllProducts("primary");
     }
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
 
         View view = inflater.inflate(R.layout.fragment_primary_list, container, false);
         listPrimaryProducts = (RecyclerView) view.findViewById(R.id.listPrimaryProducts);
@@ -105,6 +101,7 @@ public class PrimaryListFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), ItemDisplayActivity.class);
                 intent.putExtra("KEY_EXTRA_PRODUCT_ID", itemID);
 
+                //Clicking on the item is equivalent to liking it and thus the goodnessvalue is increased
                 product.updateGoodnessValue(ItemDisplayActivity.GValueLikeAction);
 
                 mProductDatabase.updateProductGValue(itemID, product.getGoodnessValue());
@@ -139,8 +136,8 @@ public class PrimaryListFragment extends Fragment {
             }
         }));
 
+        //Sets up the floating action button to add new items and the response when clicked
         android.support.design.widget.FloatingActionButton floatingActionButton = (android.support.design.widget.FloatingActionButton) view.findViewById(R.id.fab);
-
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -153,6 +150,10 @@ public class PrimaryListFragment extends Fragment {
         return view;
     }
 
+    /**
+     *  Allows the application to intercept touch events in progress at the view hierarchy level of
+     *  the RecyclerView before those touch events are considered for RecyclerView's own scrolling behavior.
+     */
     class RecyclerTouchListener implements RecyclerView.OnItemTouchListener{
 
         private GestureDetector gestureDetector;
@@ -166,7 +167,6 @@ public class PrimaryListFragment extends Fragment {
                 public boolean onSingleTapUp(MotionEvent e) {
                     return true;
                 }
-
 
                 @Override
                 public void onLongPress(MotionEvent e) {
@@ -202,6 +202,9 @@ public class PrimaryListFragment extends Fragment {
         }
     }
 
+    /**
+     * Listens for short clicks and long clicks
+     */
     public static interface ClickListener{
         public void onClick(View view, int position);
         public void onLongClick(View view, int position);
